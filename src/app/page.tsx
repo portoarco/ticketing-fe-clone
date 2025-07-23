@@ -1,19 +1,15 @@
 export default function Home() {
+  return (
+    <div>
+      <h1>This is landing page</h1>
 
-<div>
-  <h1>This is landing page</h1>
+      {/* Arco - start */}
 
-    {/* Arco - start */}
+      {/* Arco - end */}
 
-    {/* Arco - end */}
+      {/* Eky - start */}
 
-
-
-    {/* Eky - start */}
-
-    {/* Eky - end */}
-
-
-</div>
+      {/* Eky - end */}
+    </div>
   );
 }
