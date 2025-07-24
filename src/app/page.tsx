@@ -1,13 +1,17 @@
+import HeroSection from "./components/HeroSection";
+
 export default function Home() {
   return (
-    <div>
-      <h1>This is landing page</h1>
+    <div className="">
+    
 
       {/* Arco - start */}
 
       {/* Arco - end */}
 
       {/* Eky - start */}
+
+      <HeroSection/>
 
       {/* Eky - end */}
     </div>
