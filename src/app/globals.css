@@ -112,8 +112,8 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-
-#register-page {
+#register-page,
+#dashboard-page {
   font-family: "Poppins", sans-serif;
 }
 
