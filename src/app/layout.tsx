@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono,Poppins, DM_Sans} from "next/font/google";
+import { Geist, Geist_Mono, Poppins, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/NavBar";
 import FooterSection from "@/components/FooterSection";
@@ -15,22 +15,27 @@ const geistMono = Geist_Mono({
 });
 
 const poppinsFont = Poppins({
-  weight: [
-    '100', '200', '300', '400',
-    '500', '600', '700', '800', '900'
-  ],
-  subsets: ['latin'],
-  variable: '--font-poppins',
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
 });
 
 const DMSansFont = DM_Sans({
-  weight : [
-    '100', '200', '300', '400',
-    '500', '600', '700', '800', '900','1000'
+  weight: [
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+    "1000",
   ],
-  subsets:['latin'],
-  variable:'--font-dm-sans'
-})
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+});
 
 export const metadata: Metadata = {
   title: "Event Management",
@@ -47,11 +52,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppinsFont.variable} ${DMSansFont.variable} antialiased`}
       >
-        <Navbar/>
-        <main>
-        {children}
-        </main>
-        <FooterSection/>
+        <main>{children}</main>
+        <FooterSection />
       </body>
     </html>
   );
