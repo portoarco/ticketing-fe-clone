@@ -2,7 +2,7 @@
 export default function HeroSection() {
 
     return (
-
+        
         <header className="flex justify-center relative  px-6 sm:px-8">
             <div className="w-full h-[85vh] max-h-[750px]  bg-ut-orange rounded-b-3xl">
                 <div className="w-full h-full flex items-end p-14 px-15 text-white">
