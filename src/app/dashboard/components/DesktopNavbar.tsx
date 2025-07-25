@@ -16,8 +16,8 @@ function DesktopNavbar() {
           <Bell></Bell>
           <div className="flex gap-x-3 items-center">
             <Avatar className="size-10">
-              <AvatarImage></AvatarImage>
-              <AvatarFallback>ID</AvatarFallback>
+              <AvatarImage src="/defaultavatar.png"></AvatarImage>
+              <AvatarFallback></AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
               <p className="text-md font-semibold">Arco Anggoro</p>

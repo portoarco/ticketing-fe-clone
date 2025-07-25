@@ -22,7 +22,7 @@ function MobileNavbar({ className }: MobileNavbarProps) {
           </button>
           <button>
             <Avatar className="size-9">
-              <AvatarImage></AvatarImage>
+              <AvatarImage src="/defaultavatar.png"></AvatarImage>
               <AvatarFallback>ID</AvatarFallback>
             </Avatar>
           </button>
