@@ -7,12 +7,12 @@ import SearchBar from "./SearchBar";
 function DesktopNavbar() {
   return (
     <nav>
-      <div id="container" className="flex justify-between items-center p-3">
+      <div id="container" className="flex justify-between items-center ">
         <div className="flex items-center gap-x-6">
           <p className="lg:text-lg xl:text-2xl font-semibold">
             Organizer Panel
           </p>
-          <SearchBar className="w-[20em]"></SearchBar>
+          <SearchBar className=" lg:w-[12em] xl:w-[20em]"></SearchBar>
         </div>
         <div className="flex gap-x-5 items-center">
           <Bell></Bell>

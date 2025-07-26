@@ -7,17 +7,17 @@ import MainDashboardPage from "./maindashboard/page";
 
 function Dashboard() {
   return (
-    <section id="dashboard-page">
+    <section id="dashboard-page" className="bg-white">
       <div
         id="container"
-        className="flex flex-col lg:flex-row h-[100vh] lg:gap-x-5 lg:p-4 relative"
+        className="flex flex-col lg:flex-row h-[100vh] lg:gap-x-5 lg:p-3 relative"
       >
         <div id="sidebar" className="max-lg:hidden  lg:basis-2/6 xl:basis-1/6 ">
           <Sidebar></Sidebar>
         </div>
         <div
           id="dashboard-content"
-          className=" lg:basis-4/5 xl:basis-5/6 overflow-y-auto  max-lg:p-4 p-6  "
+          className=" lg:basis-4/5 xl:basis-5/6 overflow-y-auto  max-lg:p-4 p-3  "
         >
           <div id="desktop-version-navbar" className="max-lg:hidden">
             <DesktopNavbar></DesktopNavbar>
