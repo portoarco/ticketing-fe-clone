@@ -69,7 +69,7 @@ function MainDashboardPage() {
         <p className="my-5 text-xl font-bold">Report Overview</p>
         <div
           id="card-summary"
-          className="mt-4 flex max-xl:flex-col max-xl:gap-y-5 gap-x-5 "
+          className="mt-4  grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 max-xl:gap-y-5 gap-x-5 "
         >
           {summaryCard.map((e) => (
             <Card key={e.id} className="shadow-md ">
@@ -98,9 +98,9 @@ function MainDashboardPage() {
         </div>
         <div id="chart" className="mt-10">
           <p className="my-5 text-xl font-bold">Report Chart</p>
-          <div className="flex gap-x-5 max-xl:flex-col max-lg:gap-y-5">
+          <div className="flex gap-x-5 flex-col xl:flex-row max-xl:gap-y-5">
             {chartCard.map((e) => (
-              <Card key={e.id} className="w-full lg:w-1/2">
+              <Card key={e.id} className="w-full xl:w-1/2">
                 <CardHeader>
                   <CardTitle>{e.name}</CardTitle>
                 </CardHeader>

@@ -40,17 +40,18 @@ function RegisterPage() {
   const route = useRouter();
 
   // Get Data (Ref)
-  const inNameRef = useRef<HTMLInputElement>(null);
+  const inFirstNameRef = useRef<HTMLInputElement>(null);
+  const inLastNameRef = useRef<HTMLInputElement>(null);
   const inEmailRef = useRef<HTMLInputElement>(null);
   const inPasswordRef = useRef<HTMLInputElement>(null);
   const inReffCodeRef = useRef<HTMLInputElement>(null);
   const inPhoneNumberRef = useRef<HTMLInputElement>(null);
-  // const [birthdate, setBirthdate] = useState<Date | null>(null);
 
   // Register Button
   const onBtnRegister = async () => {
     try {
-      const name = inNameRef.current?.value;
+      const first_name = inFirstNameRef.current?.value.toUpperCase();
+      const last_name = inLastNameRef.current?.value.toUpperCase();
       const email = inEmailRef.current?.value;
       const password = inPasswordRef.current?.value;
       const refferal_code = inReffCodeRef.current?.value;
@@ -64,7 +65,8 @@ function RegisterPage() {
 
       // validation
       if (
-        !name ||
+        !first_name ||
+        !last_name ||
         !email ||
         !password ||
         !birthdate ||
@@ -77,7 +79,8 @@ function RegisterPage() {
         return;
       }
       const response = await apiCall.post("/auth/register", {
-        name,
+        first_name,
+        last_name,
         email,
         password,
         refferal_code,
@@ -87,6 +90,7 @@ function RegisterPage() {
       });
 
       console.log(response.data.result);
+
       // alert("Data Berhasil Disimpan");
       toast.success("Data Berhasil Disimpan", { autoClose: 1000 });
       route.replace("/login");
@@ -126,9 +130,9 @@ function RegisterPage() {
   return (
     <section
       id="register-page"
-      className="flex justify-center min-h-screen items-center "
+      className="flex justify-center min-h-screen items-center bg-white "
     >
-      <div className="w-[96vw] lg:h-[96vh] max-sm:my-5 lg:flex shadow-2xl rounded-xl overflow-hidden  max-lg:p-3  ">
+      <div className="w-[96vw] lg:h-[96vh] max-sm:my-5 lg:flex shadow-2xl rounded-xl overflow-hidden  max-lg:p-5  ">
         <div className="relative lg:w-full lg:h-full w-full h-40 flex justify-center max-lg:rounded-xl overflow-hidden shadow-md">
           <div className="absolute inset-0 z-10 bg-black/35 " />
           <Image
@@ -139,7 +143,7 @@ function RegisterPage() {
           />
 
           {/* Logo and branding */}
-          <div className="absolute z-20 flex flex-col items-center h-[100%] justify-center lg:p-8 text-center">
+          <div className="absolute z-20 flex flex-col items-center h-[100%] justify-center lg:p-8 text-center p-2">
             <div className="lg:mb-6 lg:p-6">
               <Image
                 src="/logo.svg"
@@ -173,14 +177,25 @@ function RegisterPage() {
                 Register now and start your journey!
               </p>
             </div>
-            <div className="py-2">
-              <label className="lg:text-lg">Fullname</label>
-              <Input
-                placeholder="Your name"
-                className="border-2 border-blue-200"
-                required
-                ref={inNameRef}
-              ></Input>
+            <div className="grid grid-cols-2 gap-x-2">
+              <div className="py-2">
+                <label className="lg:text-lg">First Name</label>
+                <Input
+                  placeholder="First name"
+                  className="border-2 border-blue-200"
+                  required
+                  ref={inFirstNameRef}
+                ></Input>
+              </div>
+              <div className="py-2">
+                <label className="lg:text-lg">Last Name</label>
+                <Input
+                  placeholder="Last name"
+                  className="border-2 border-blue-200"
+                  required
+                  ref={inLastNameRef}
+                ></Input>
+              </div>
             </div>
             <div className="py-2">
               <label className="lg:text-lg">Email</label>
@@ -225,13 +240,13 @@ function RegisterPage() {
             </div>
 
             <div id="birthdate" className="flex flex-col">
-              <label className="lg:text-lg">Date of Birth</label>
+              <label className="lg:text-lg  ">Date of Birth</label>
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild className="border-2 border-blue-200">
                   <Button
                     variant={"outline"}
                     id="date"
-                    className="w-48 justify-between font-normal text-gray-500"
+                    className="w-48 justify-between font-normal text-gray-500 bg-white"
                   >
                     {date ? date.toLocaleDateString() : "Select Date"}
                     <ChevronDownIcon />

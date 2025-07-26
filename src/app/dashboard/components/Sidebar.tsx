@@ -56,7 +56,7 @@ function Sidebar({ className }: SidebarProps) {
     <div
       id="sidebar-comp"
       className={clsx(
-        "lg:bg-blue-800 lg:h-full max-lg:h-[60vh] max-md:w-[90vw] rounded-xl absolute z-10 lg:relative lg:top-0 top-20 ",
+        "lg:bg-blue-800 lg:h-full max-lg:h-[60vh] max-md:w-[90vw] rounded-xl absolute z-10 lg:relative lg:top-0 top-20 lg:w-[90%] xl:w-[100%] ",
         className
       )}
     >
@@ -83,7 +83,6 @@ function Sidebar({ className }: SidebarProps) {
               return (
                 <li
                   key={item.id}
-                  // className=" rounded-md py-3 lg:px-5 hover:bg-white hover:text-blue-600 hover:shadow-md my-3  cursor-pointer transition duration-200 ease-in-out max-sm:bg-white/50 max-sm:px-[10vw] max-lg:bg-white/50 max-lg:w-[80vw] max-lg:p-3 max-lg:flex lg:justify-center"
                   className={clsx(
                     "rounded-md py-3 lg:px-5 my-3 cursor-pointer transition duration-200 ease-in-out",
                     "max-sm:bg-white/50 max-sm:px-[10vw] max-lg:bg-white/50 max-lg:w-[80vw] max-lg:p-3 max-lg:flex lg:justify-center",
