@@ -8,8 +8,10 @@ function DesktopNavbar() {
   return (
     <nav>
       <div id="container" className="flex justify-between items-center p-3">
-        <div className="flex items-center gap-x-8">
-          <p className="text-2xl font-semibold">Dashboard</p>
+        <div className="flex items-center gap-x-6">
+          <p className="lg:text-lg xl:text-2xl font-semibold">
+            Organizer Panel
+          </p>
           <SearchBar className="w-[20em]"></SearchBar>
         </div>
         <div className="flex gap-x-5 items-center">
@@ -20,8 +22,12 @@ function DesktopNavbar() {
               <AvatarFallback></AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <p className="text-md font-semibold">Arco Anggoro</p>
-              <p className="text-sm text-gray-400">Event Organizer</p>
+              <p className="xl:text-md lg:text-sm font-semibold">
+                Arco Anggoro
+              </p>
+              <p className="xl:text-sm lg:text-sm text-gray-400">
+                Event Organizer
+              </p>
             </div>
           </div>
         </div>
