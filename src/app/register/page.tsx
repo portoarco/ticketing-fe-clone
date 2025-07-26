@@ -14,17 +14,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { apiCall } from "@/helper/apiCall";
 import { ChevronDownIcon, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { GetCountries, GetPhonecodes } from "react-country-state-city";
 import { Country, Phonecodes } from "react-country-state-city/dist/esm/types";
+import { toast } from "react-toastify";
 
 function RegisterPage() {
   // Country Selector
   const [countriesList, setCountriesList] = useState<Country[]>([]);
-  const [country, setCountry] = useState<Country | null>(null);
+  const [pickCountry, setPickCountry] = useState<Country | null>(null);
   // Phonecodes Seletor
   const [phoneCodeList, setPhoneCodeList] = useState<Phonecodes[]>([]);
   const [phoneCode, setPhoneCode] = useState<Phonecodes | null>(null);
@@ -33,6 +36,65 @@ function RegisterPage() {
   const [date, setDate] = useState<Date | undefined>(undefined);
   // Show Password Selector
   const [showPassword, setShowPassword] = useState(false);
+  // Router
+  const route = useRouter();
+
+  // Get Data (Ref)
+  const inNameRef = useRef<HTMLInputElement>(null);
+  const inEmailRef = useRef<HTMLInputElement>(null);
+  const inPasswordRef = useRef<HTMLInputElement>(null);
+  const inReffCodeRef = useRef<HTMLInputElement>(null);
+  const inPhoneNumberRef = useRef<HTMLInputElement>(null);
+  // const [birthdate, setBirthdate] = useState<Date | null>(null);
+
+  // Register Button
+  const onBtnRegister = async () => {
+    try {
+      const name = inNameRef.current?.value;
+      const email = inEmailRef.current?.value;
+      const password = inPasswordRef.current?.value;
+      const refferal_code = inReffCodeRef.current?.value;
+      const birthdate = date?.toISOString();
+      const country = pickCountry?.name;
+
+      const phone_number =
+        "+" +
+        (phoneCode?.phone_code ?? "") +
+        (inPhoneNumberRef.current?.value ?? "");
+
+      // validation
+      if (
+        !name ||
+        !email ||
+        !password ||
+        !birthdate ||
+        !phone_number ||
+        !country
+      ) {
+        toast.warn("Isi semua data!", {
+          autoClose: 3000,
+        });
+        return;
+      }
+      const response = await apiCall.post("/auth/register", {
+        name,
+        email,
+        password,
+        refferal_code,
+        phone_number,
+        country,
+        birthdate,
+      });
+
+      console.log(response.data.result);
+      // alert("Data Berhasil Disimpan");
+      toast.success("Data Berhasil Disimpan", { autoClose: 1000 });
+      route.replace("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
+  };
 
   // Country
   useEffect(() => {
@@ -53,13 +115,13 @@ function RegisterPage() {
   }, []);
 
   useEffect(() => {
-    if (country && phoneCodeList.length > 0) {
+    if (pickCountry && phoneCodeList.length > 0) {
       const matchedPhoneCode = phoneCodeList.find(
-        (phonecode) => phonecode.id === country.id
+        (phonecode) => phonecode.id === pickCountry.id
       );
       setPhoneCode(matchedPhoneCode ?? null);
     }
-  }, [country, phoneCodeList]);
+  }, [pickCountry, phoneCodeList]);
 
   return (
     <section
@@ -117,6 +179,7 @@ function RegisterPage() {
                 placeholder="Your name"
                 className="border-2 border-blue-200"
                 required
+                ref={inNameRef}
               ></Input>
             </div>
             <div className="py-2">
@@ -126,6 +189,7 @@ function RegisterPage() {
                 required
                 type="email"
                 className="border-2 border-blue-200"
+                ref={inEmailRef}
               ></Input>
             </div>
             <div className="py-2 relative">
@@ -135,6 +199,7 @@ function RegisterPage() {
                 required
                 type={showPassword ? "text" : "password"}
                 className="border-2 border-blue-200"
+                ref={inPasswordRef}
               ></Input>
               <button
                 className="absolute top-10 right-2"
@@ -153,9 +218,9 @@ function RegisterPage() {
               <label className="lg:text-lg">Referral Code</label>
               <Input
                 placeholder="Referral Code (Optional)"
-                required
                 type="text"
                 className="border-2 border-blue-200"
+                ref={inReffCodeRef}
               ></Input>
             </div>
 
@@ -198,7 +263,7 @@ function RegisterPage() {
                     const selectedCountry = countriesList.find(
                       (c) => c.id.toString() === value
                     );
-                    setCountry(selectedCountry ?? null);
+                    setPickCountry(selectedCountry ?? null);
                   }}
                 >
                   <SelectTrigger className="border-2 border-blue-200">
@@ -251,6 +316,7 @@ function RegisterPage() {
                     required
                     placeholder="Select Country First"
                     className="border-2 border-blue-200"
+                    ref={inPhoneNumberRef}
                   ></Input>
                 </div>
               </div>
@@ -260,6 +326,7 @@ function RegisterPage() {
               <Button
                 type="button"
                 className="lg:text-xl w-full p-5 cursor-pointer hover:bg-orange-600 bg-orange-500  shadow-xl"
+                onClick={onBtnRegister}
               >
                 Create Account
               </Button>
