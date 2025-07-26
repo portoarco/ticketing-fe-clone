@@ -9,12 +9,17 @@
   --color-prussian-blue: #023047;
   --color-ut-orange : #fb8500;
   --color-selective-orange :  #ffb703;
-  --font-sans: var(--font-poppins);
-  --font-display: var(--font-dm-sans);
+  --font-poppins: "Poppins", sans-serif;
+  --font-display: "DM Sans", sans-serif;
+  --animate-bounce-slow: bounce 2s infinite;
 }
 
+
+
+
+
 @theme inline {
-  --color-background: var(--background);
+  --color-background: #e8f4fa;
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -122,6 +127,8 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+
 
 
 #register-page,
