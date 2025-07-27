@@ -7,7 +7,7 @@ import { PopoverArrow } from "@radix-ui/react-popover";
 export default function Navbar() {
   return (
     <nav className=" flex justify-center ">
-      <div className="flex justify-between items-center mt-4 gap-10 w-[84%] max-w-7xl bg-white/60  h-16 rounded-full   px-5 fixed z-50 backdrop-blur-lg">
+      <div className="flex justify-between items-center mt-4 gap-10 w-[84%] max-w-7xl bg-white/60  h-16 rounded-full  drop-shadow-md  drop-shadow-black/7 px-5 fixed z-50 backdrop-blur-lg">
         <a
           href="#"
           className="font-display font-bold text-2xl tracking-wider flex-shrink-0"
@@ -37,17 +37,18 @@ export default function Navbar() {
                 placeholder:font-poppins
                 placeholder:text-[16px]
                 text-[16px]
-                placeholder:font-[400]"
+                placeholder:font-[400]
+                shadow-md shadow-black/5"
           />
         </div>
         <div className="flex gap-2">
           <Popover>
             <PopoverTrigger>
-              <div className=" max-w-md block sm:hidden  transition-all bg-white/10 backdrop-blur-lg rounded-full p-2 group hover:bg-neutral-500">
+              <div className=" max-w-md block sm:hidden  transition-all bg-white/10 backdrop-blur-lg rounded-full p-2 group shadow-md shadow-black/5 hover:bg-neutral-500">
                 <Search className="text-muted-foreground h-5 w-5 group-hover:text-white" />
               </div>
             </PopoverTrigger>
-            <PopoverContent className="rounded-4xl bg-white/60 w-fit backdrop-blur-lg flex gap-2 flex-col sm:hidden mx-5 border-0 ">
+            <PopoverContent className="rounded-4xl bg-white/60 w-fit shadow-md shadow-black/5 backdrop-blur-lg flex gap-2 flex-col sm:hidden mx-5 border-0 ">
               <div className="relative max-w-md block sm:hidden flex-grow transition-all">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5 " />
                 <Input
@@ -82,7 +83,7 @@ export default function Navbar() {
               {/* <span className="">Menu</span> */}
               <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors  mix-blend-overlay "></div>
             </PopoverTrigger>
-            <PopoverContent className="rounded-4xl bg-white/60 w-fit backdrop-blur-lg flex gap-2 flex-col lg:hidden mx-5 border-0">
+            <PopoverContent className="rounded-4xl bg-white/60 w-fit backdrop-blur-lg flex gap-2 flex-col shadow-md shadow-black/5 lg:hidden mx-5 border-0">
               <Button className="bg-blue-green font-poppins font-semibold rounded-full w-37 group relative hover:bg-blue-green overflow-hidden cursor-pointer">
                 <PlusCircle className="h-5 w-5 z-10" />
                 <span className="z-10">Create Event</span>
