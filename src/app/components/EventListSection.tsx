@@ -1,6 +1,8 @@
+"use client";
 import EventCard from "@/components/EventCard";
 import EventFilter from "../../components/EventFilter";
 import { EventCardProps } from "../types/types";
+import { useEffect, useState } from "react";
 
 type Event = EventCardProps["event"];
 
@@ -107,14 +109,52 @@ export const eventData: Event[] = [
 ];
 
 export default function EventListSection() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [currentCategory, setCurrentCategory] = useState<any>(eventData);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [inputValue, setInputValue] = useState(searchQuery);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearchQuery(inputValue);
+      // console.log(searchQuery);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [inputValue]);
+
+  function test(category: string) {
+    console.log(category);
+  }
+
   return (
     <section className="mt-10 px-4 container mx-auto ">
-      <EventFilter></EventFilter>
+      <EventFilter
+        searchQuery={inputValue}
+        onQueryChange={setInputValue}
+        activeCategory={activeCategory}
+        onCategoryChange={setActiveCategory}
+      ></EventFilter>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-12 w-full">
-        {eventData.map((item, index) => (
-          <EventCard event={item} key={index} />
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-12 w-full">
+        {(activeCategory === "All"
+          ? currentCategory
+          : currentCategory.filter(
+              (data: any) => activeCategory === data.category
+            )
+        )
+          .filter((item: any) => {
+            return (
+              item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              item.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              item.category.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          })
+          .map((item: any, index: any) => (
+            <EventCard event={item} key={index} />
+          ))}
       </div>
     </section>
   );

@@ -2,7 +2,7 @@ import { Library, Share2, Ticket } from "lucide-react";
 
 export default function FeaturesSection() {
   return (
-    <section className=" mt-10 px-5 ">
+    <section className=" my-40 px-5 ">
       <div className="w-full  rounded-3xl container mx-auto">
         <div className="">
           <div className="flex flex-col items-center mb-[40px] gap-3 ">

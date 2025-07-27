@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -7,13 +8,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-
-interface ISlideData {
-  img: string;
-  alt: string;
-  headline: string;
-  subheadline: string;
-}
+import { ISlideData } from "../types/types";
+import { useRef } from "react";
+import Autoplay from "embla-carousel-autoplay";
 
 const slidesData: ISlideData[] = [
   {
@@ -47,10 +44,17 @@ const slidesData: ISlideData[] = [
 ];
 
 export default function HeroSection() {
+  const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
+
   return (
-    <section className="flex justify-center relative  px-6 sm:px-8">
-      <Carousel className="w-full h-fit max-h-[750px]  bg-ut-orange rounded-b-3xl overflow-hidden">
-        <CarouselContent className=" h-[70vh]">
+    <section className="flex justify-center relative  px-4 sm:px-8">
+      <Carousel
+        plugins={[plugin.current]}
+        onMouseEnter={() => plugin.current.stop()}
+        onMouseLeave={() => plugin.current.reset()}
+        className="w-full h-fit max-h-[855px] md:max-h-[750px]  bg-ut-orange rounded-b-3xl overflow-hidden transition-all"
+      >
+        <CarouselContent className=" h-[80vh] md:h-[70vh] ">
           {slidesData.map((data, index) => (
             <CarouselItem className="relative" key={index}>
               <Image
@@ -61,15 +65,15 @@ export default function HeroSection() {
               ></Image>
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
               <div className="absolute inset-0 p-8 md:py-13 md:px-20 flex flex-col justify-end items-start text-white">
-                <h1 className="font-display text-7xl font-bold mb-4 tracking-tight text-shadow-lg">
+                <h1 className="font-display text-5xl md:text-6xl font-bold mb-2 md:mb-4 tracking-tight text-shadow-lg lg:text-7xl">
                   {data.headline}
                 </h1>
-                <p className="font-display mb-5 text-xl whitespace-pre-line">
+                <p className="font-display mb-5 text-sm whitespace-pre-line md:text-xl">
                   {data.subheadline}
                 </p>
                 <Button
                   size="lg"
-                  className="bg-selective-orange text-prussian-blue hover:bg-selective-orange/90 rounded-4xl px-8 py-7 font-[1000] text-lg font-display"
+                  className="bg-selective-orange text-prussian-blue hover:bg-selective-orange/90 rounded-4xl px-8 py-7 font-[1000] text-lg font-display "
                 >
                   Explore Experiences
                 </Button>
@@ -77,8 +81,8 @@ export default function HeroSection() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="absolute left-4 z-10" />
-        <CarouselNext className="absolute right-4 z-10" />
+        <CarouselPrevious className="absolute top-50 bg-white/70 backdrop-blur-sm border-0 md:top-1/2 left-4 z-10" />
+        <CarouselNext className="absolute top-50 bg-white/70 backdrop-blur-sm border-0   md:top-1/2 right-4 z-10" />
       </Carousel>
     </section>
   );
