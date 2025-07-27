@@ -18,7 +18,9 @@ export default function Home() {
       <HeroSection />
       <Divider variant="arrow" />
       <EventListSection />
+      <Divider variant="circles" />
       <FeaturesSection />
+      <Divider variant="circles" />
       <CTASection />
       <Divider variant="circles" />
 

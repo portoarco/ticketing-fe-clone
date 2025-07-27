@@ -1,5 +1,5 @@
 import EventCard from "@/components/EventCard";
-import FilterSection from "./FilterSection";
+import EventFilter from "../../components/EventFilter";
 import { EventCardProps } from "../types/types";
 
 type Event = EventCardProps["event"];
@@ -109,7 +109,7 @@ export const eventData: Event[] = [
 export default function EventListSection() {
   return (
     <section className="mt-10 px-4 container mx-auto ">
-      <FilterSection></FilterSection>
+      <EventFilter></EventFilter>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-12 w-full">
         {eventData.map((item, index) => (

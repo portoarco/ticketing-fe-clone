@@ -10,8 +10,8 @@ function Divider({ variant }: DividerProps) {
       <div className="flex items-center">
         <div className=" h-[1px] rounded-full bg-prussian-blue/20 w-full"></div>
         {variant === "arrow" ? (
-          <ChevronDown
-            className=" translate-y-3 text-prussian-blue/60 mx-5 animate-bounce-slow"
+          <ArrowDown
+            className=" translate-y-3 text-prussian-blue mx-5 animate-bounce-slow"
             size={70}
           />
         ) : (

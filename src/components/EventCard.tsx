@@ -5,8 +5,9 @@ import { MapPin } from "lucide-react";
 
 export default function EventCard({ event }: EventCardProps) {
   return (
-    <Card className="p-0 transition-all duration-300 shadow-md hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-green/40 h-fit border-0">
+    <Card className="p-0 transition-all duration-300 shadow-md hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-green/40 border-0">
       <CardHeader className="relative p-0 -mb-8 ">
+        {/* reminder - h-40 */}
         <div className=" rounded-t-lg relative overflow-hidden h-40 bg-amber-600">
           <Image
             src={event.img.src}
@@ -36,10 +37,10 @@ export default function EventCard({ event }: EventCardProps) {
         <p className="font-poppins text-blue-green font-semibold  text-[12px]">
           {event.category}
         </p>
-        <h3 className="font-poppins text-prussian-blue font-bold text-lg">
+        <h3 className="font-poppins text-prussian-blue font-bold text-lg mb-1">
           {event.title}
         </h3>
-        <div className="flex items-center gap-1 text-prussian-blue/50 mt-1">
+        <div className="flex items-center gap-1 text-prussian-blue/50 mt-auto">
           <MapPin size={13} />
           <p className="font-poppins text-[12px] text-prussian-blue/50">
             {event.location}
