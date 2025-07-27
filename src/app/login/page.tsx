@@ -1,14 +1,52 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { apiCall } from "@/helper/apiCall";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 function LoginPage() {
   // Show Password Selector
   const [showPassword, setShowPassword] = useState(false);
+  // route
+  const route = useRouter();
+  // login ref
+  const inEmailRef = useRef<HTMLInputElement>(null);
+  const inPasswordRef = useRef<HTMLInputElement>(null);
+
+  // login system
+  const onBtnSignIn = async () => {
+    try {
+      const email = inEmailRef.current?.value;
+      const password = inPasswordRef.current?.value;
+
+      if (!email || !password) {
+        alert("Email Wajib Diisi");
+        return;
+      }
+      const res = await apiCall.post("/auth/login", {
+        email,
+        password,
+      });
+
+      // set token to localstorage
+      localStorage.setItem("tkn", res.data.result.token);
+      // console.log(res.data);
+      // console.log(res.data.result.token);
+      const first_name = res.data.result.first_name;
+      toast.success(`Login Success! Welcome, ${first_name}`, {
+        autoClose: 1000,
+      });
+      route.replace("/");
+    } catch (error) {
+      alert("There is something wrong");
+      console.log(error);
+    }
+  };
 
   return (
     <section
@@ -66,6 +104,7 @@ function LoginPage() {
                 required
                 type="email"
                 className="mt-2 border-2 border-blue-200 p-5"
+                ref={inEmailRef}
               ></Input>
             </div>
             <div className="py-4 relative">
@@ -83,6 +122,7 @@ function LoginPage() {
                 required
                 type={showPassword ? "text" : "password"}
                 className="mt-2 border-2 border-blue-200 p-5"
+                ref={inPasswordRef}
               ></Input>
               <button
                 className="absolute top-15 right-2"
@@ -101,6 +141,7 @@ function LoginPage() {
               <Button
                 type="button"
                 className="w-full p-6 cursor-pointer hover:bg-orange-600 bg-orange-500  shadow-xl text-lg"
+                onClick={onBtnSignIn}
               >
                 Login Account
               </Button>
