@@ -78,6 +78,7 @@ function RegisterPage() {
         });
         return;
       }
+
       const response = await apiCall.post("/auth/register", {
         first_name,
         last_name,
