@@ -117,7 +117,6 @@ export default function EventListSection() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearchQuery(inputValue);
-      // console.log(searchQuery);
     }, 500);
 
     return () => {
