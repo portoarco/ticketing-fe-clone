@@ -11,7 +11,7 @@ export default function EventHeader() {
         </h1>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-prussian-blue/80">
           <div className="flex items-center gap-2">
-            <Star className="text-selective-yellow" fill="currentColor" />
+            <Star className="text-selective-orange" fill="currentColor" />
             <span className="font-semibold">4.92 (12 reviews)</span>
           </div>
           <div className="flex items-center gap-2">
