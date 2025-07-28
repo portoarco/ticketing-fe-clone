@@ -56,7 +56,13 @@ export default function EventCard({ event }: EventCardProps) {
               event.price === 0 ? "text-selective-orange" : "text-blue-green"
             }`}
           >
-            {event.price === 0 ? "FREE" : `$${event.price}`}
+            {event.price === 0
+              ? "FREE"
+              : `${event.price.toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  minimumFractionDigits: 0,
+                })}`}
           </p>
         </div>
       </CardFooter>

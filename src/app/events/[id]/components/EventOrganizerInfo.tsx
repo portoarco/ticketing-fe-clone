@@ -1,8 +1,22 @@
+import Image from "next/image";
+
 export default function EventOrganizerInfo() {
   return (
-    <section className="border-b py-6">
-      <div className="w-full h-24 bg-sky_blue/20 rounded-lg flex items-center justify-center ">
-        <p className="text-prussian_blue/50">Event Organizer Info Section</p>
+    <section className="pb-6 border-b">
+      <div className="flex justify-between items-start">
+        <div>
+          <h2 className="font-display text-2xl font-bold text-prussian-blue">
+            Hosted by The Underground
+          </h2>
+          <p className="text-prussian-blue/70">Venue </p>
+        </div>
+        <Image
+          src="https://i.pravatar.cc/60?img=1"
+          alt="Host avatar"
+          width={56}
+          height={56}
+          className="rounded-full"
+        />
       </div>
     </section>
   );
