@@ -1,10 +1,13 @@
+"use client";
 import { Menu, PlusCircle, Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { PopoverArrow } from "@radix-ui/react-popover";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
+  const route = useRouter();
   return (
     <nav className=" flex justify-center ">
       <div className="flex justify-between items-center mt-4 gap-10 w-[84%] max-w-7xl bg-white/60  h-16 rounded-full  drop-shadow-md  drop-shadow-black/7 px-5 fixed z-50 backdrop-blur-lg">
@@ -84,7 +87,10 @@ export default function Navbar() {
               <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors  mix-blend-overlay "></div>
             </PopoverTrigger>
             <PopoverContent className="rounded-4xl bg-white/60 w-fit backdrop-blur-lg flex gap-2 flex-col shadow-md shadow-black/5 lg:hidden mx-5 border-0">
-              <Button className="bg-blue-green font-poppins font-semibold rounded-full w-37 group relative hover:bg-blue-green overflow-hidden cursor-pointer">
+              <Button
+                className="bg-blue-green font-poppins font-semibold rounded-full w-37 group relative hover:bg-blue-green overflow-hidden cursor-pointer"
+                onClick={() => route.replace("/dashboard")}
+              >
                 <PlusCircle className="h-5 w-5 z-10" />
                 <span className="z-10">Create Event</span>
                 <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
@@ -92,10 +98,14 @@ export default function Navbar() {
               <Button
                 variant={"ghost"}
                 className="font-poppins rounded-full cursor-pointer"
+                onClick={() => route.push("/login")}
               >
                 Sign In
               </Button>
-              <Button className="bg-ut-orange font-poppins rounded-full  group relative hover:bg-ut-orange overflow-hidden cursor-pointer">
+              <Button
+                className="bg-ut-orange font-poppins rounded-full  group relative hover:bg-ut-orange overflow-hidden cursor-pointer"
+                onClick={() => route.push("/register")}
+              >
                 <span className="z-10">Sign Up</span>
                 <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
               </Button>
@@ -107,7 +117,10 @@ export default function Navbar() {
 
         <div className="hidden lg:block transition-all  ">
           <div className="flex gap-3 items-center ">
-            <Button className="bg-blue-green font-poppins font-semibold rounded-full w-37 group relative hover:bg-blue-green overflow-hidden cursor-pointer">
+            <Button
+              className="bg-blue-green font-poppins font-semibold rounded-full w-37 group relative hover:bg-blue-green overflow-hidden cursor-pointer"
+              onClick={() => route.push("/dashboard")}
+            >
               <PlusCircle className="h-5 w-5 z-10" />
               <span className="z-10">Create Event</span>
               <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
@@ -115,10 +128,14 @@ export default function Navbar() {
             <Button
               variant={"ghost"}
               className="font-poppins rounded-full cursor-pointer"
+              onClick={() => route.push("/login")}
             >
               Sign In
             </Button>
-            <Button className="bg-ut-orange font-poppins rounded-full  group relative hover:bg-ut-orange overflow-hidden cursor-pointer">
+            <Button
+              className="bg-ut-orange font-poppins rounded-full  group relative hover:bg-ut-orange overflow-hidden cursor-pointer"
+              onClick={() => route.push("/register")}
+            >
               <span className="z-10">Sign Up</span>
               <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
             </Button>

@@ -56,7 +56,7 @@ function Sidebar({ className }: SidebarProps) {
     <div
       id="sidebar-comp"
       className={clsx(
-        "lg:bg-blue-800 lg:h-full max-lg:h-[60vh] max-md:w-[90vw] rounded-xl absolute z-10 lg:relative lg:top-0 top-20 lg:w-[90%] xl:w-[100%] ",
+        "lg:bg-blue-600 lg:h-full max-lg:h-[60vh] max-md:w-[90vw] rounded-xl absolute z-10 lg:relative lg:top-0 top-20 lg:w-[90%] xl:w-[100%] ",
         className
       )}
     >

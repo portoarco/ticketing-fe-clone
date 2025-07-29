@@ -1,3 +1,4 @@
+"use client";
 import EventListSection from "./components/EventListSection";
 import HeroSection from "./components/HeroSection";
 import FeaturesSection from "./components/FeaturesSection";

@@ -10,7 +10,10 @@ function SearchBar({ className }: SearchBarProps) {
   return (
     <div className={clsx("default-styles", className)}>
       <div className="relative">
-        <Input placeholder="Search Bar"></Input>
+        <Input
+          placeholder="Search Bar"
+          className="bg-white shadow-blue-200 shadow-md"
+        ></Input>
         <Search className="absolute top-2 right-4 size-5 text-gray-500"></Search>
       </div>
     </div>
