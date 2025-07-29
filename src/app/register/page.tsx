@@ -131,7 +131,7 @@ function RegisterPage() {
   return (
     <section
       id="register-page"
-      className="flex justify-center min-h-screen items-center bg-white "
+      className="flex justify-center min-h-screen items-center "
     >
       <div className="w-[96vw] lg:h-[96vh] max-sm:my-5 lg:flex shadow-2xl rounded-xl overflow-hidden  max-lg:p-5  ">
         <div className="relative lg:w-full lg:h-full w-full h-40 flex justify-center max-lg:rounded-xl overflow-hidden shadow-md">
