@@ -84,7 +84,7 @@ function LoginPage() {
         {/* Register Form */}
         <div
           id="register-form"
-          className="lg:w-full lg:flex lg:items-center lg:justify-center xl:max-w-2xl lg:max-w-sm  bg-white "
+          className="lg:w-full lg:flex lg:items-center lg:justify-center xl:max-w-2xl lg:max-w-sm   "
         >
           <form action="" className=" lg:p-5">
             <div
@@ -103,7 +103,7 @@ function LoginPage() {
                 placeholder="Your Email"
                 required
                 type="email"
-                className="mt-2 border-2 border-blue-200 p-5"
+                className="mt-2 p-5 bg-white shadow-md shadow-blue-200"
                 ref={inEmailRef}
               ></Input>
             </div>
@@ -121,7 +121,7 @@ function LoginPage() {
                 placeholder="Your Password"
                 required
                 type={showPassword ? "text" : "password"}
-                className="mt-2 border-2 border-blue-200 p-5"
+                className="mt-2 p-5 bg-white shadow-md shadow-blue-200"
                 ref={inPasswordRef}
               ></Input>
               <button

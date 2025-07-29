@@ -14,9 +14,9 @@ function DesktopNavbar() {
           </p>
           <SearchBar className=" lg:w-[12em] xl:w-[20em]"></SearchBar>
         </div>
-        <div className="flex gap-x-5 items-center">
+        <div className="flex gap-x-5 items-center ">
           <Bell></Bell>
-          <div className="flex gap-x-3 items-center">
+          <div className="flex gap-x-3 items-center ">
             <Avatar className="size-10">
               <AvatarImage src="/defaultavatar.png"></AvatarImage>
               <AvatarFallback></AvatarFallback>

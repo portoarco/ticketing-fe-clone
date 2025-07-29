@@ -164,7 +164,7 @@ function RegisterPage() {
         {/* Register Form */}
         <div
           id="register-form"
-          className="lg:w-full lg:flex lg:items-center lg:justify-center xl:max-w-2xl lg:max-w-sm  bg-white "
+          className="lg:w-full lg:flex lg:items-center lg:justify-center xl:max-w-2xl lg:max-w-sm   "
         >
           <form action="" className=" lg:p-5">
             <div
@@ -183,7 +183,7 @@ function RegisterPage() {
                 <label className="lg:text-lg">First Name</label>
                 <Input
                   placeholder="First name"
-                  className="border-2 border-blue-200"
+                  className="bg-white shadow-md shadow-blue-200"
                   required
                   ref={inFirstNameRef}
                 ></Input>
@@ -192,7 +192,7 @@ function RegisterPage() {
                 <label className="lg:text-lg">Last Name</label>
                 <Input
                   placeholder="Last name"
-                  className="border-2 border-blue-200"
+                  className="bg-white shadow-md shadow-blue-200"
                   required
                   ref={inLastNameRef}
                 ></Input>
@@ -204,7 +204,7 @@ function RegisterPage() {
                 placeholder="Your Email"
                 required
                 type="email"
-                className="border-2 border-blue-200"
+                className="bg-white shadow-md shadow-blue-200"
                 ref={inEmailRef}
               ></Input>
             </div>
@@ -214,7 +214,7 @@ function RegisterPage() {
                 placeholder="Your Password"
                 required
                 type={showPassword ? "text" : "password"}
-                className="border-2 border-blue-200"
+                className="bg-white shadow-md shadow-blue-200"
                 ref={inPasswordRef}
               ></Input>
               <button
@@ -235,7 +235,7 @@ function RegisterPage() {
               <Input
                 placeholder="Referral Code (Optional)"
                 type="text"
-                className="border-2 border-blue-200"
+                className="bg-white shadow-md shadow-blue-200"
                 ref={inReffCodeRef}
               ></Input>
             </div>
@@ -282,7 +282,7 @@ function RegisterPage() {
                     setPickCountry(selectedCountry ?? null);
                   }}
                 >
-                  <SelectTrigger className="border-2 border-blue-200">
+                  <SelectTrigger className="bg-white shadow-md shadow-blue-200">
                     <SelectValue placeholder="Select Your Country"></SelectValue>
                   </SelectTrigger>
                   <SelectContent>
@@ -312,7 +312,7 @@ function RegisterPage() {
                         setPhoneCode(selectedPhone ?? null);
                       }}
                     >
-                      <SelectTrigger className="border-2 border-blue-200">
+                      <SelectTrigger className="bg-white shadow-md shadow-blue-200">
                         <SelectValue placeholder="+"></SelectValue>
                       </SelectTrigger>
                       <SelectContent>
@@ -331,7 +331,7 @@ function RegisterPage() {
                     type="tel"
                     required
                     placeholder="Select Country First"
-                    className="border-2 border-blue-200"
+                    className="bg-white shadow-md shadow-blue-200"
                     ref={inPhoneNumberRef}
                   ></Input>
                 </div>
