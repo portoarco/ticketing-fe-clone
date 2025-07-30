@@ -6,7 +6,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 function LoginPage() {
@@ -17,6 +17,13 @@ function LoginPage() {
   // login ref
   const inEmailRef = useRef<HTMLInputElement>(null);
   const inPasswordRef = useRef<HTMLInputElement>(null);
+
+  // route protection
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      route.replace("/dashboard");
+    }
+  }, []);
 
   // login system
   const onBtnSignIn = async () => {
@@ -34,7 +41,7 @@ function LoginPage() {
       });
 
       // set token to localstorage
-      localStorage.setItem("tkn", res.data.result.token);
+      localStorage.setItem("token", res.data.result.token);
       // console.log(res.data);
       // console.log(res.data.result.token);
       const first_name = res.data.result.first_name;

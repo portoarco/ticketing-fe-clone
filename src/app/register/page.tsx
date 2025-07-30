@@ -39,6 +39,13 @@ function RegisterPage() {
   // Router
   const route = useRouter();
 
+  // Route protection
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      route.replace("/dashboard");
+    }
+  }, []);
+
   // Get Data (Ref)
   const inFirstNameRef = useRef<HTMLInputElement>(null);
   const inLastNameRef = useRef<HTMLInputElement>(null);
@@ -94,7 +101,7 @@ function RegisterPage() {
 
       // alert("Data Berhasil Disimpan");
       toast.success("Data Berhasil Disimpan", { autoClose: 1000 });
-      // route.replace("/login");
+      route.replace("/login");
     } catch (error) {
       console.log(error);
       alert("Something went wrong");
