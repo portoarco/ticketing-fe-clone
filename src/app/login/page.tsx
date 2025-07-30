@@ -84,7 +84,7 @@ function LoginPage() {
         {/* Register Form */}
         <div
           id="register-form"
-          className="lg:w-full lg:flex lg:items-center lg:justify-center xl:max-w-2xl lg:max-w-sm   "
+          className="lg:w-full lg:flex lg:items-center lg:justify-center xl:max-w-2xl lg:max-w-sm lg:bg-white    "
         >
           <form action="" className=" lg:p-5">
             <div
