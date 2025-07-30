@@ -5,9 +5,22 @@ import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { PopoverArrow } from "@radix-ui/react-popover";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Navbar() {
   const route = useRouter();
+  const [organizer, setOrganizer] = useState(false);
+
+  const handlerCreateEvent = () => {
+    const confirmation = confirm("Are You Sure?");
+
+    if (confirmation) {
+      route.push("/dashboard");
+      setOrganizer(true);
+      localStorage.setItem("organizer", "true");
+    }
+  };
+
   return (
     <nav className=" flex justify-center ">
       <div className="flex justify-between items-center mt-4 gap-10 w-[84%] max-w-7xl bg-white/60  h-16 rounded-full  drop-shadow-md  drop-shadow-black/7 px-5 fixed z-50 backdrop-blur-lg">
@@ -89,7 +102,7 @@ export default function Navbar() {
             <PopoverContent className="rounded-4xl bg-white/60 w-fit backdrop-blur-lg flex gap-2 flex-col shadow-md shadow-black/5 lg:hidden mx-5 border-0">
               <Button
                 className="bg-blue-green font-poppins font-semibold rounded-full w-37 group relative hover:bg-blue-green overflow-hidden cursor-pointer"
-                onClick={() => route.replace("/dashboard")}
+                onClick={handlerCreateEvent}
               >
                 <PlusCircle className="h-5 w-5 z-10" />
                 <span className="z-10">Create Event</span>
@@ -119,7 +132,7 @@ export default function Navbar() {
           <div className="flex gap-3 items-center ">
             <Button
               className="bg-blue-green font-poppins font-semibold rounded-full w-37 group relative hover:bg-blue-green overflow-hidden cursor-pointer"
-              onClick={() => route.push("/dashboard")}
+              onClick={handlerCreateEvent}
             >
               <PlusCircle className="h-5 w-5 z-10" />
               <span className="z-10">Create Event</span>

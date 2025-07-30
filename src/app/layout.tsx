@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins, DM_Sans } from "next/font/google";
 import "./globals.css";
 import FooterSection from "@/components/FooterSection";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import type { Metadata } from "next";
+import AuthProvider from "./components/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,16 +50,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const initialize = useAuthStore((state) => state.initialize);
+
+  // useEffect(() => {
+  //   initialize();
+  // }, []);
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppinsFont.variable} ${DMSansFont.variable} antialiased`}
       >
-        <main>
-          <ToastContainer />
-          {children}
-        </main>
-        <FooterSection />
+        <AuthProvider>
+          <main>
+            <ToastContainer />
+            {children}
+          </main>
+          <FooterSection />
+        </AuthProvider>
       </body>
     </html>
   );

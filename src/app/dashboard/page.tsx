@@ -1,11 +1,32 @@
+"use client";
 import MobileNavbar from "./components/Mobilenavbar";
-
 import DesktopNavbar from "./components/DesktopNavbar";
 import SearchBar from "./components/SearchBar";
 import Sidebar from "./components/Sidebar";
 import MainDashboardPage from "./maindashboard/page";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { apiCall } from "@/helper/apiCall";
 
 function Dashboard() {
+  const route = useRouter();
+
+  const getEvents = async () => {
+    try {
+      const getData = await apiCall.get("/events");
+      console.log(getData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Route protection
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      route.replace("/login");
+    }
+  }, []);
+
   return (
     <section id="dashboard-page" className="">
       <div

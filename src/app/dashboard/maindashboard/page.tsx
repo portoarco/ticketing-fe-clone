@@ -13,41 +13,8 @@ import { CircleDollarSign, EllipsisVertical } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import TransactionCharts from "./components/TransactionsChart";
-
-const summaryCard = [
-  {
-    id: 1,
-    name: "Total Events",
-    icon: <CircleDollarSign />,
-    content: 999,
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
-    CTA: <EllipsisVertical />,
-  },
-  {
-    id: 2,
-    name: "Ticket Sold",
-    icon: <CircleDollarSign />,
-    content: 999,
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
-    CTA: <EllipsisVertical />,
-  },
-  {
-    id: 3,
-    name: "Upcoming Events",
-    icon: <CircleDollarSign />,
-    content: 999,
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
-    CTA: <EllipsisVertical />,
-  },
-  {
-    id: 4,
-    name: "Recent Transaction",
-    icon: <CircleDollarSign />,
-    content: 999,
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
-    CTA: <EllipsisVertical />,
-  },
-];
+import { apiCall } from "@/helper/apiCall";
+import { useEffect, useState } from "react";
 
 const chartCard = [
   {
@@ -63,6 +30,58 @@ const chartCard = [
 ];
 
 function MainDashboardPage() {
+  const [totalEvents, setTotalEvents] = useState<number>(0);
+
+  const getEvents = async () => {
+    try {
+      const res = await apiCall.get("/events/:organizer_id");
+      console.log(res);
+      setTotalEvents(res.data.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getEvents();
+  }, []);
+
+  // Map
+  const summaryCard = [
+    {
+      id: 1,
+      name: "Total Events",
+      icon: <CircleDollarSign />,
+      content: totalEvents,
+      desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
+      CTA: <EllipsisVertical />,
+    },
+    {
+      id: 2,
+      name: "Ticket Sold",
+      icon: <CircleDollarSign />,
+      content: 999,
+      desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
+      CTA: <EllipsisVertical />,
+    },
+    {
+      id: 3,
+      name: "Upcoming Events",
+      icon: <CircleDollarSign />,
+      content: 999,
+      desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
+      CTA: <EllipsisVertical />,
+    },
+    {
+      id: 4,
+      name: "Recent Transaction",
+      icon: <CircleDollarSign />,
+      content: 999,
+      desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
+      CTA: <EllipsisVertical />,
+    },
+  ];
+
   return (
     <section>
       <div id="dashboard-container" className="">

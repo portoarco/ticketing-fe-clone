@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/store/authStore";
 import clsx from "classnames";
 import {
   ChartBarBig,
@@ -52,6 +53,13 @@ const menu = [
 function Sidebar({ className }: SidebarProps) {
   const route = useRouter();
   const pathname = usePathname();
+  const logout = useAuthStore((state) => state.logout);
+
+  const handleLogout = () => {
+    logout();
+    route.replace("/");
+  };
+
   return (
     <div
       id="sidebar-comp"
@@ -107,7 +115,7 @@ function Sidebar({ className }: SidebarProps) {
         <div id="logout" className="absolute bottom-0 lg:bottom-5 flex">
           <Button className="lg:bg-transparent text-lg lg:hover:bg-transparent lg:hover:scale-110 cursor-pointer bg-red-600 hover:bg-red-500">
             <LogOut></LogOut>
-            <p onClick={() => route.replace("/")}>Sign Out </p>
+            <p onClick={handleLogout}>Sign Out </p>
           </Button>
         </div>
       </div>
