@@ -11,7 +11,7 @@ const categoryDummy: string[] = [
   "Art & Culture",
   "Food & Drink",
   "Tech",
-  "Wellness",
+  "Health",
   "Sports",
 ];
 

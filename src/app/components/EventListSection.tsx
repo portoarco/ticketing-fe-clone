@@ -3,6 +3,8 @@ import EventCard from "@/components/EventCard";
 import EventFilter from "../../components/EventFilter";
 import { EventCardProps } from "../types/types";
 import { useEffect, useState } from "react";
+import { apiCall } from "@/helper/apiCall";
+import { LoaderPinwheel } from "lucide-react";
 
 type Event = EventCardProps["event"];
 
@@ -113,6 +115,26 @@ export default function EventListSection() {
   const [currentCategory, setCurrentCategory] = useState<any>(eventData);
   const [searchQuery, setSearchQuery] = useState("");
   const [inputValue, setInputValue] = useState(searchQuery);
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const fetchedData = await apiCall.get("/events");
+
+        setEvents(fetchedData.data);
+        console.log("EventListSection - Fetched data : ", fetchedData.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -138,22 +160,46 @@ export default function EventListSection() {
       ></EventFilter>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-12 w-full">
-        {(activeCategory === "All"
-          ? currentCategory
-          : currentCategory.filter(
-              (data: any) => activeCategory === data.category
-            )
-        )
-          .filter((item: any) => {
-            return (
-              item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              item.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              item.category.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-          })
-          .map((item: any, index: any) => (
-            <EventCard event={item} key={index} />
-          ))}
+        {isLoading ? (
+          <div className="flex flex-col gap-3 items-center justify-center col-span-full ">
+            <p className=" text-center text-prussian-blue font-poppins font-semibold">
+              Loading Events...
+            </p>
+            <LoaderPinwheel className=" animate-spin text-blue-green " />
+          </div>
+        ) : (
+          (activeCategory === "All"
+            ? events
+            : events.filter((item: any) => {
+                if (activeCategory === item.category_event.name) {
+                  // console.log(
+                  //   "EventListSection - Fetched data : ",
+                  //   item.category_event.name
+                  // );
+                  // console.log(
+                  //   "EventListSection - Fetched data : ",
+                  //   item.location_Event.city
+                  // );
+                  // console.log("EventListSection - Fetched data : ", item.image);
+                  return item;
+                }
+              })
+          )
+            .filter((item: any) => {
+              return (
+                item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.location_Event.city
+                  .toLowerCase()
+                  .includes(searchQuery.toLowerCase()) ||
+                item.category_event.name
+                  .toLowerCase()
+                  .includes(searchQuery.toLowerCase())
+              );
+            })
+            .map((item: any, index: any) => (
+              <EventCard event={item} key={index} />
+            ))
+        )}
       </div>
     </section>
   );
