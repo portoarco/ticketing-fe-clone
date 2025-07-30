@@ -1,49 +1,105 @@
+"use client";
 import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { EventCardProps } from "@/app/types/types";
-import { MapPin } from "lucide-react";
+import {
+  ArrowRight,
+  CircleArrowRightIcon,
+  LucideArrowBigRightDash,
+  LucideCircleArrowRight,
+  MapPin,
+} from "lucide-react";
+import { useEffect } from "react";
 
-export default function EventCard({ event }: EventCardProps) {
+export default function EventCard({ event }: any) {
+  useEffect(() => {
+    // console.log(event);
+  }, []);
+
+  function roundToSpecifiedDigit(num: number, digits: number) {
+    const factor = 10 ** (num.toString().length - digits);
+    return Math.round(num / factor) * factor;
+  }
+
+  const months: string[] = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
   return (
     <Card className="p-0 transition-all duration-300 shadow-md hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-green/40 border-0">
       <CardHeader className="relative p-0 -mb-8 ">
         {/* reminder - h-40 */}
-        <div className=" rounded-t-lg relative overflow-hidden h-40 bg-amber-600">
+        <div className=" rounded-t-lg relative overflow-hidden h-40 ">
           <Image
-            src={event.img.src}
-            alt={event.img.alt}
+            src={event.image}
+            alt={""}
             fill
             className="object-cover object-center"
           ></Image>
-          {event.promo ? (
+          {false ? (
             <div
               className={`absolute rounded-br-md w-fit h-fit py-1 px-3 text-white font-bold font-poppins text-[12px] ${event.promo.color} `}
             >
-              <p className="uppercase">{event.promo.text}</p>
+              {/* <p className="uppercase">{event.promo.text}</p> */}
             </div>
           ) : null}
         </div>
 
-        <div className="absolute bg-ut-orange w-14 text-white text-center p-2 -right-3 -top-3 shadow-xl rounded-lg">
-          <span className="block font-bold text-xl font-poppins">
-            {event.day}
-          </span>
-          <span className="block text-[10px] uppercase tracking-wider font-poppins">
-            {event.month}
-          </span>
+        <div className="absolute bg-ut-orange  text-white text-center py-2 px-4 -right-3 -top-3 shadow-xl rounded-lg origin-right whitespace-nowrap flex gap-3 items-center scale-85">
+          <div>
+            <span className="block font-bold text-xl font-poppins">
+              {`${new Date(event.start_date)
+                .getDate()
+                .toString()
+                .padStart(2, "0")}`}
+            </span>
+            <span className="block text-[10px] uppercase tracking-wider font-poppins">
+              {months[new Date(event.start_date).getMonth()]}
+            </span>
+          </div>
+          {event.end_date ? (
+            <>
+              <div>
+                <LucideArrowBigRightDash size={18} />
+              </div>
+
+              <div>
+                <span className="block font-bold text-xl font-poppins">
+                  {`${new Date(event.end_date)
+                    .getDate()
+                    .toString()
+                    .padStart(2, "0")}`}
+                </span>
+                <span className="block text-[10px] uppercase tracking-wider font-poppins">
+                  {months[new Date(event.end_date).getMonth()]}
+                </span>
+              </div>
+            </>
+          ) : null}
         </div>
       </CardHeader>
       <CardContent className="p-4 flex flex-col  flex-grow ">
         <p className="font-poppins text-blue-green font-semibold  text-[12px]">
-          {event.category}
+          {event.category_event.name}
         </p>
         <h3 className="font-poppins text-prussian-blue font-bold text-lg mb-1">
-          {event.title}
+          {event.name}
         </h3>
         <div className="flex items-center gap-1 text-prussian-blue/50 mt-auto">
           <MapPin size={13} />
           <p className="font-poppins text-[12px] text-prussian-blue/50">
-            {event.location}
+            {event.location_Event.city}
           </p>
         </div>
         <hr className="mt-3" />
@@ -58,11 +114,14 @@ export default function EventCard({ event }: EventCardProps) {
           >
             {event.price === 0
               ? "FREE"
-              : `${event.price.toLocaleString("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                  minimumFractionDigits: 0,
-                })}`}
+              : `${roundToSpecifiedDigit(event.price, 2).toLocaleString(
+                  "id-ID",
+                  {
+                    style: "currency",
+                    currency: "IDR",
+                    minimumFractionDigits: 0,
+                  }
+                )}`}
           </p>
         </div>
       </CardFooter>
