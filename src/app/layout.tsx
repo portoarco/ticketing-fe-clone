@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins, DM_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/NavBar";
 import FooterSection from "@/components/FooterSection";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

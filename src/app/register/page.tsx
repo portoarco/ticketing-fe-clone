@@ -54,7 +54,7 @@ function RegisterPage() {
       const last_name = inLastNameRef.current?.value.toUpperCase();
       const email = inEmailRef.current?.value;
       const password = inPasswordRef.current?.value;
-      const refferal_code = inReffCodeRef.current?.value;
+      const referrer_code = inReffCodeRef.current?.value;
       const birthdate = date?.toISOString();
       const country = pickCountry?.name;
 
@@ -84,7 +84,7 @@ function RegisterPage() {
         last_name,
         email,
         password,
-        refferal_code,
+        referrer_code,
         phone_number,
         country,
         birthdate,
@@ -94,7 +94,7 @@ function RegisterPage() {
 
       // alert("Data Berhasil Disimpan");
       toast.success("Data Berhasil Disimpan", { autoClose: 1000 });
-      route.replace("/login");
+      // route.replace("/login");
     } catch (error) {
       console.log(error);
       alert("Something went wrong");
@@ -164,7 +164,7 @@ function RegisterPage() {
         {/* Register Form */}
         <div
           id="register-form"
-          className="lg:w-full lg:flex lg:items-center lg:justify-center xl:max-w-2xl lg:max-w-sm   "
+          className="lg:w-full lg:flex lg:items-center lg:justify-center xl:max-w-2xl lg:max-w-sm lg:bg-white  "
         >
           <form action="" className=" lg:p-5">
             <div
