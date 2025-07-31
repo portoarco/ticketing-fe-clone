@@ -5,19 +5,45 @@ import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { PopoverArrow } from "@radix-ui/react-popover";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { apiCall } from "@/helper/apiCall";
+import { AxiosError } from "axios";
 
 export default function Navbar() {
   const route = useRouter();
-  const [organizer, setOrganizer] = useState(false);
 
-  const handlerCreateEvent = () => {
+  const handlerCreateEvent = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Anda harus login dulu untuk create event");
+      route.replace("/login");
+      return;
+    }
+
     const confirmation = confirm("Are You Sure?");
+    if (!confirmation) return;
 
-    if (confirmation) {
-      route.push("/dashboard");
-      setOrganizer(true);
-      localStorage.setItem("organizer", "true");
+    try {
+      const res = await apiCall.post(
+        "/auth/register-organizer",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      alert("Berhasil Terdaftar");
+    } catch (error) {
+      console.log(error);
+      const err = error as AxiosError<{ isNew: boolean }>;
+
+      const status = err.response?.data.isNew;
+      if (status === false) {
+        alert("Anda sudah terdaftar sebagai organizer");
+        route.replace("/dashboard");
+      }
+
+      if (!err) {
+        alert("There is something wrong!");
+      }
     }
   };
 

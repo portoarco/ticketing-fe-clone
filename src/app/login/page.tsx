@@ -41,11 +41,10 @@ function LoginPage() {
       });
 
       // set token to localstorage
+      console.log(res.data.result.id);
       localStorage.setItem("token", res.data.result.token);
-      // console.log(res.data);
-      // console.log(res.data.result.token);
-      const first_name = res.data.result.first_name;
-      toast.success(`Login Success! Welcome, ${first_name}`, {
+
+      toast.success(`Login Success!`, {
         autoClose: 1000,
       });
       route.replace("/");
@@ -118,7 +117,7 @@ function LoginPage() {
               <div className="flex justify-between items-center">
                 <label className="text-xl">Password</label>
                 <Link
-                  href="/"
+                  href="/forget-password"
                   className="text-sm text-blue-500 hover:text-blue-400 "
                 >
                   Forget password?
