@@ -1,22 +1,24 @@
 import Image from "next/image";
 import { Star, MapPin } from "lucide-react";
 
-export default function EventHeader() {
+export default function EventHeader({ event }: any) {
   return (
     <>
       <section className="mb-6">
-        <p className="font-semibold text-blue-green mb-2">Music</p>
+        <p className="font-semibold text-blue-green mb-2">
+          {event.category_event.name}
+        </p>
         <h1 className="font-display text-4xl md:text-5xl font-bold text-prussian-blue mb-4">
-          Indie Rock Night ft. The Wandering Souls
+          {event.name}
         </h1>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-prussian-blue/80">
           <div className="flex items-center gap-2">
             <Star className="text-selective-orange" fill="currentColor" />
             <span className="font-semibold">4.92 (12 reviews)</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-poppins">
             <MapPin className="h-5 w-5" />
-            <span>The Underground, Downtown</span>
+            <span>{event.location_Event.city}</span>
           </div>
         </div>
       </section>
@@ -24,7 +26,7 @@ export default function EventHeader() {
       <section className="mb-12">
         <div className="relative w-full h-[50vh] max-h-[450px] rounded-2xl shadow-lg overflow-hidden">
           <Image
-            src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=1200&q=80"
+            src={event.image}
             alt="Main event"
             fill
             className="object-cover"

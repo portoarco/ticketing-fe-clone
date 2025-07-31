@@ -14,7 +14,6 @@ export default function Home() {
       {/* Arco - end */}
 
       {/* Eky - start */}
-      <Navbar />
 
       <HeroSection />
       <Divider variant="arrow" />
