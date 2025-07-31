@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import type { Metadata } from "next";
 import AuthProvider from "./components/AuthProvider";
+import Navbar from "@/components/NavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -62,6 +63,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${poppinsFont.variable} ${DMSansFont.variable} antialiased`}
       >
         <AuthProvider>
+          <Navbar />
           <main>
             <ToastContainer />
             {children}

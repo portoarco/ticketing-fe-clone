@@ -4,7 +4,7 @@ export default function EventDescription() {
       <h2 className="font-display text-2xl font-bold text-prussian-blue mb-4">
         About this event
       </h2>
-      <div className="space-y-4 text-prussian-blue/80 leading-relaxed">
+      <div className="space-y-4 text-prussian-blue/80 font-poppins leading-relaxed">
         <p>
           Join us for a night of electrifying performances as The Wandering
           Souls take the stage at The Underground. Experience the raw energy and

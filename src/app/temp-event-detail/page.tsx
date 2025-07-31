@@ -4,8 +4,7 @@ import EventDetailPage from "../events/[id]/page";
 export default function TempEventDetail() {
   return (
     <div>
-      <Navbar />
-      <EventDetailPage />
+      {/* <EventDetailPage /> */}
     </div>
   );
 }

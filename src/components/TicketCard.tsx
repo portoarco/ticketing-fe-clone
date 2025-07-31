@@ -3,6 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 
 export default function TicketCard() {
   const [quantity, setQuantity] = useState(1);
@@ -14,16 +22,18 @@ export default function TicketCard() {
     minimumFractionDigits: 0,
   });
   return (
-    <div className="border rounded-2xl shadow-lg bg-white h-fit">
-      <div className="p-6">
-        <h3 className="font-display text-xl font-bold text-prussian-blue mb-4">
-          Select Tickets
-        </h3>
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
+    <>
+      <Card className="">
+        <CardHeader className="relative">
+          <CardTitle className="font-display text-xl font-bold text-prussian-blue mb-4">
+            Select Tickets
+          </CardTitle>
+          <CardDescription className="font-poppins flex justify-between pb-7">
             <div>
-              <p className="font-bold">General Admission</p>
-              <p className="text-lg font-bold text-blue-green">
+              <p className="text-[16px] text-prussian-blue/80 font-semibold">
+                General Admission
+              </p>
+              <p className="text-lg font-semibold font-poppins text-blue-green">
                 {formattedPrice}
               </p>
             </div>
@@ -37,7 +47,9 @@ export default function TicketCard() {
               >
                 -
               </Button>
-              <span className="w-8 text-center font-bold">{quantity}</span>
+              <span className="w-8 text-center font-bold text-prussian-blue">
+                {quantity}
+              </span>
               <Button
                 variant="ghost"
                 size="icon"
@@ -47,55 +59,59 @@ export default function TicketCard() {
                 +
               </Button>
             </div>
+          </CardDescription>
+          <div className="absolute bottom-0 border-b  inset-x-0"></div>
+        </CardHeader>
+        <CardContent className="relative pb-7">
+          <div className="flex justify-between mb-4">
+            <label className=" text-[13px] font-semibold text-prussian-blue font-poppins">
+              Voucher Code
+            </label>
+            <Button
+              variant="link"
+              className="text-[11px] font-bold text-blue-green h-auto p-0 font-poppins"
+            >
+              Apply
+            </Button>
           </div>
-        </div>
-      </div>
-
-      <div className="bg-sky-blue/20 p-6 border-y">
-        <div className="flex justify-between items-center mb-4">
-          <label htmlFor="voucher" className="font-semibold text-sm">
-            Voucher Code
-          </label>
-          <Button
-            variant="link"
-            className="text-xs font-bold text-blue-green h-auto p-0"
-          >
-            Apply
-          </Button>
-        </div>
-        <Input
-          type="text"
-          id="voucher"
-          placeholder="Enter code"
-          className="h-9"
-        />
-        <div className="mt-4 flex items-center justify-between">
-          <label htmlFor="points" className="font-semibold text-sm">
-            Use My Points
-          </label>
-          <div className="flex items-center">
-            <span className="text-sm font-bold text-selective-orange mr-2">
+          <Input
+            type="text"
+            id="voucher"
+            placeholder="Enter code"
+            className="h-9 placeholder:font-poppins placeholder:text-[12px] text-[12px]"
+          />
+          <div className=" flex items-center justify-between mt-4">
+            <div className="flex items-center gap-2">
+              <label
+                htmlFor="points"
+                className="font-semibold font-poppins text-prussian-blue text-[13px] "
+              >
+                Use My Points
+              </label>
+              <Checkbox id="points" />
+            </div>
+            <p className="text-xs font-bold font-poppins text-selective-orange">
               20.000
-            </span>
-            <Checkbox id="points" />
+            </p>
           </div>
-        </div>
-        <p className="text-xs text-prussian-blue/60 mt-1">
-          You will save IDR 20.000
-        </p>
-      </div>
+          <p className="text-[11px] font-poppins text-prussian-blue/60 mt-1">
+            You will save IDR 20.000
+          </p>
+          <div className="absolute bottom-0 border-b  inset-x-0"></div>
+        </CardContent>
+        <CardFooter className="flex flex-col">
+          <div className="w-full space-y-2">
+            <div className="flex items-center justify-between font-poppins  text-prussian-blue/70">
+              <p className="text-xs">1x General Admission</p>
+              <p className="text-xs">{formattedPrice}</p>
+            </div>
+            <div className="flex items-center justify-between font-poppins text-xs text-prussian-blue/70">
+              <p>Points Discount</p>
+              <p className="text-green-600">- IDR 20.000</p>
+            </div>
+          </div>
 
-      <div className="p-6">
-        <div className="space-y-2 text-sm">
-          <div className="flex justify-between text-prussian-blue/80">
-            <span>1x General Admission</span>
-            <span>{formattedPrice}</span>
-          </div>
-          <div className="flex justify-between text-prussian-blue/80">
-            <span>Points Discount</span>
-            <span className="text-green-600">- IDR 20.000</span>
-          </div>
-          <div className="flex justify-between font-bold text-prussian-blue text-base mt-2 pt-2 border-t">
+          <div className="flex justify-between font-semibold w-full font-poppins text-prussian-blue text-base mt-2 pt-2 border-t">
             <span>Total</span>
             <span>
               {totalPrice.toLocaleString("id-ID", {
@@ -105,14 +121,14 @@ export default function TicketCard() {
               })}
             </span>
           </div>
-        </div>
-        <Button
-          size="lg"
-          className="w-full mt-6 bg-ut-orange hover:bg-ut-orange/90 font-bold"
-        >
-          Checkout
-        </Button>
-      </div>
-    </div>
+          <Button
+            size="lg"
+            className="w-full mt-6 font-poppins bg-ut-orange hover:bg-ut-orange/90 font-bold"
+          >
+            Checkout
+          </Button>
+        </CardFooter>
+      </Card>
+    </>
   );
 }
