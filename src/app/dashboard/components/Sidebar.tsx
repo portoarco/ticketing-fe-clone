@@ -27,13 +27,13 @@ const menu = [
   {
     id: 2,
     name: "Manage Events",
-    url: "/events",
+    url: "/dashboard/eventspage",
     icon: <Rows3></Rows3>,
   },
   {
     id: 3,
     name: "Transactions",
-    url: "/transactions",
+    url: "/dashboard/transactions",
     icon: <Receipt></Receipt>,
   },
   {
@@ -71,7 +71,8 @@ function Sidebar({ className }: SidebarProps) {
       <div id="container" className="flex flex-col  items-center">
         <div
           id="comp-logo"
-          className="max-lg:hidden flex mt-10 justify-center "
+          className="max-lg:hidden flex mt-10 justify-center cursor-pointer "
+          onClick={() => route.replace("/")}
         >
           <Image
             src="/logo.svg"

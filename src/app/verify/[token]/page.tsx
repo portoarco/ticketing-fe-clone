@@ -12,7 +12,7 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-const VerifyPage = () => {
+function VerifyPage() {
   const params = useParams();
   const route = useRouter();
   const onVerifyBtn = async () => {
@@ -33,12 +33,6 @@ const VerifyPage = () => {
   };
 
   return (
-    // <div className="">
-    //   <p>Click Button to verify account</p>
-    //   <Button type="button" onClick={onVerifyBtn}>
-    //     Verify Account
-    //   </Button>
-    // </div>
     <section className=" min-h-screen">
       <div
         id="verify-page"
@@ -72,5 +66,5 @@ const VerifyPage = () => {
       </div>
     </section>
   );
-};
+}
 export default VerifyPage;

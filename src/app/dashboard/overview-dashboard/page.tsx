@@ -1,16 +1,7 @@
 "use client";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CircleDollarSign, EllipsisVertical } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import TransactionCharts from "./components/TransactionsChart";
 import { apiCall } from "@/helper/apiCall";
@@ -55,6 +46,7 @@ function MainDashboardPage() {
       content: totalEvents,
       desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
       CTA: <EllipsisVertical />,
+      url: "/dashboard/eventspage",
     },
     {
       id: 2,
@@ -63,6 +55,7 @@ function MainDashboardPage() {
       content: 999,
       desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
       CTA: <EllipsisVertical />,
+      url: "#",
     },
     {
       id: 3,
@@ -71,6 +64,7 @@ function MainDashboardPage() {
       content: 999,
       desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
       CTA: <EllipsisVertical />,
+      url: "#",
     },
     {
       id: 4,
@@ -79,6 +73,7 @@ function MainDashboardPage() {
       content: 999,
       desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
       CTA: <EllipsisVertical />,
+      url: "#",
     },
   ];
 
@@ -101,7 +96,7 @@ function MainDashboardPage() {
                     <CardTitle className="text-xl">{e.name}</CardTitle>
                   </div>
 
-                  <Link href={"#"} className="text-gray-700">
+                  <Link href={e.url} className="text-gray-700">
                     {e.CTA}
                   </Link>
                 </div>
