@@ -11,7 +11,13 @@ import {
 } from "lucide-react";
 import { useEffect } from "react";
 
-export default function EventCard({ event }: any) {
+export default function EventCard({
+  event,
+  onClick,
+}: {
+  event: any;
+  onClick: () => void;
+}) {
   useEffect(() => {
     // console.log(event);
   }, []);
@@ -37,7 +43,10 @@ export default function EventCard({ event }: any) {
   ];
 
   return (
-    <Card className="p-0 transition-all duration-300 shadow-md hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-green/40 border-0">
+    <Card
+      onClick={onClick}
+      className={`p-0 transition-all duration-300 shadow-md hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-green/40 border-0 cursor-pointer`}
+    >
       <CardHeader className="relative p-0 -mb-8 ">
         {/* reminder - h-40 */}
         <div className=" rounded-t-lg relative overflow-hidden h-40 ">
@@ -114,14 +123,11 @@ export default function EventCard({ event }: any) {
           >
             {event.price === 0
               ? "FREE"
-              : `${roundToSpecifiedDigit(event.price, 2).toLocaleString(
-                  "id-ID",
-                  {
-                    style: "currency",
-                    currency: "IDR",
-                    minimumFractionDigits: 0,
-                  }
-                )}`}
+              : `${event.price.toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  minimumFractionDigits: 0,
+                })}`}
           </p>
         </div>
       </CardFooter>

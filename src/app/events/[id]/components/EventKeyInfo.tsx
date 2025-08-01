@@ -17,7 +17,7 @@ export default function EventKeyInfo({ event }: any) {
             })}, ${startDate.toLocaleDateString(undefined, {
               month: "long",
             })} ${startDate.getDate()}, ${startDate.getFullYear()}`}
-            <br /> 8:00 PM - 11:00 PM {startDate.getHours()}
+            <br /> 8:00 PM - 11:00 PM
           </p>
         </div>
       </div>

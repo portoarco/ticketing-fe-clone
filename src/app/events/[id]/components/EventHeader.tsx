@@ -14,7 +14,9 @@ export default function EventHeader({ event }: any) {
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-prussian-blue/80">
           <div className="flex items-center gap-2">
             <Star className="text-selective-orange" fill="currentColor" />
-            <span className="font-semibold">4.92 (12 reviews)</span>
+            <span className="font-semibold font-poppins">
+              4.92 (12 reviews)
+            </span>
           </div>
           <div className="flex items-center gap-2 font-poppins">
             <MapPin className="h-5 w-5" />
