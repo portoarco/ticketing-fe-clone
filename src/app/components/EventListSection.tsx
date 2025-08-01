@@ -125,7 +125,7 @@ export default function EventListSection() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const fetchedData = await apiCall.get("/events");
+        const fetchedData = await apiCall.get("/events/");
 
         setEvents(fetchedData.data);
         console.log("EventListSection - Fetched data : ", fetchedData.data);
@@ -156,11 +156,9 @@ export default function EventListSection() {
   async function openEventDetailsPage(id: string) {
     try {
       setIsLoadingCursor(true);
-      await router.push(`/events/${id}`);
+      router.push(`/events/${id}`);
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoadingCursor(false);
     }
   }
 
@@ -212,7 +210,6 @@ export default function EventListSection() {
             })
             .map((item: any, index: any) => (
               <EventCard
-                isLoadingCursorStyle={isLoadingCursor ? "cursor-progress" : ""}
                 onClick={() => openEventDetailsPage(item.id)}
                 event={item}
                 key={index}
