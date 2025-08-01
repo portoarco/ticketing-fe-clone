@@ -110,7 +110,7 @@ function ResetPassword() {
                 {showPassword ? <Eye></Eye> : <EyeClosed></EyeClosed>}
               </button>
             </div>
-            <div id="confirmpass" className="relative">
+            <div id="confirmpass" className="relative text-gray-500">
               <Input
                 placeholder="Input Confirmation Password"
                 className="mb-3"

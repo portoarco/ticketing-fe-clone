@@ -9,7 +9,10 @@ function NavbarWrapper() {
   const hiddenRoutes =
     pathname.startsWith("/dashboard") ||
     pathname === "/login" ||
-    pathname === "/register";
+    pathname === "/register" ||
+    pathname.startsWith("/verify") ||
+    pathname.startsWith("/forget-password") ||
+    pathname.startsWith("/reset-password");
 
   if (hiddenRoutes) {
     return null;
