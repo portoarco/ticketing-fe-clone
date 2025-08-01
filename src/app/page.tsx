@@ -8,7 +8,7 @@ import Divider from "@/components/Divider";
 
 export default function Home() {
   return (
-    <div className="">
+    <>
       {/* Arco - start */}
 
       {/* Arco - end */}
@@ -25,6 +25,6 @@ export default function Home() {
       <Divider variant="circles" />
 
       {/* Eky - end */}
-    </div>
+    </>
   );
 }

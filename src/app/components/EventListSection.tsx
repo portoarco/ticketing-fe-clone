@@ -5,6 +5,7 @@ import { EventCardProps } from "../types/types";
 import { useEffect, useState } from "react";
 import { apiCall } from "@/helper/apiCall";
 import { LoaderPinwheel } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type Event = EventCardProps["event"];
 
@@ -111,12 +112,14 @@ export const eventData: Event[] = [
 ];
 
 export default function EventListSection() {
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState("All");
   const [currentCategory, setCurrentCategory] = useState<any>(eventData);
   const [searchQuery, setSearchQuery] = useState("");
   const [inputValue, setInputValue] = useState(searchQuery);
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingCursor, setIsLoadingCursor] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -150,6 +153,17 @@ export default function EventListSection() {
     console.log(category);
   }
 
+  async function openEventDetailsPage(id: string) {
+    try {
+      setIsLoadingCursor(true);
+      await router.push(`/events/${id}`);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingCursor(false);
+    }
+  }
+
   return (
     <section className="mt-10 px-4 container mx-auto ">
       <EventFilter
@@ -162,7 +176,7 @@ export default function EventListSection() {
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-12 w-full">
         {isLoading ? (
           <div className="flex flex-col gap-3 items-center justify-center col-span-full ">
-            <p className=" text-center text-prussian-blue font-poppins font-semibold">
+            <p className=" text-center text-prussian-blue font-poppins font-semibold ">
               Loading Events...
             </p>
             <LoaderPinwheel className=" animate-spin text-blue-green " />
@@ -197,7 +211,12 @@ export default function EventListSection() {
               );
             })
             .map((item: any, index: any) => (
-              <EventCard event={item} key={index} />
+              <EventCard
+                isLoadingCursorStyle={isLoadingCursor ? "cursor-progress" : ""}
+                onClick={() => openEventDetailsPage(item.id)}
+                event={item}
+                key={index}
+              />
             ))
         )}
       </div>

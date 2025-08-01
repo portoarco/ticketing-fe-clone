@@ -7,7 +7,7 @@ import TicketCard from "@/components/TicketCard";
 import { apiCall } from "@/helper/apiCall";
 import { notFound } from "next/navigation";
 
-interface EventDetailParams {
+interface IParams {
   params: { id: string };
 }
 
@@ -27,7 +27,7 @@ async function getEvent(params: string): Promise<any | null> {
   }
 }
 
-export default async function EventDetailPage({ params }: EventDetailParams) {
+export default async function EventDetailPage({ params }: IParams) {
   const eventId = params.id;
 
   const eventData = await getEvent(eventId);
@@ -44,12 +44,12 @@ export default async function EventDetailPage({ params }: EventDetailParams) {
         <div className="lg:col-span-2">
           <EventOrganizerInfo event={eventData} />
           <EventKeyInfo event={eventData} />
-          <EventDescription />
+          <EventDescription event={eventData} />
           {/* <EventReviews /> */}
         </div>
 
         <div className="lg:col-span-1">
-          <TicketCard />
+          <TicketCard event={eventData} />
         </div>
       </div>
     </main>

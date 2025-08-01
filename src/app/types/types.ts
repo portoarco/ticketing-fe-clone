@@ -17,3 +17,7 @@ export interface ISlideData {
   headline: string;
   subheadline: string;
 }
+
+export interface IParams {
+  params: { id: string };
+}

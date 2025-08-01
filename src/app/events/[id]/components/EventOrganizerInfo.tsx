@@ -6,7 +6,10 @@ export default function EventOrganizerInfo({ event }: any) {
       <div className="flex justify-between items-start">
         <div>
           <h2 className="font-display text-2xl font-bold text-prussian-blue">
-            {`Hosted by ${event.organizer.user.first_name} ${event.organizer.user.last_name}`}
+            {`Hosted by `}
+            <span className="text-blue-green">
+              {`${event.organizer.user.first_name} ${event.organizer.user.last_name}`}{" "}
+            </span>
           </h2>
           <p className="text-prussian-blue/70 font-poppins text-sm">
             Organizer{" "}
