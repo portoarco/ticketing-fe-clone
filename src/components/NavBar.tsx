@@ -7,8 +7,16 @@ import { PopoverArrow } from "@radix-ui/react-popover";
 import { useRouter } from "next/navigation";
 import { apiCall } from "@/helper/apiCall";
 import { AxiosError } from "axios";
+import { useAuthStore } from "@/store/authStore";
+import { useEffect } from "react";
 
 export default function Navbar() {
+  const initialize = useAuthStore((state) => state.initialize);
+  const token = useAuthStore((state) => state.token);
+  const logout = useAuthStore((state) => state.logout);
+
+  console.log(token);
+
   const route = useRouter();
 
   const handlerCreateEvent = async () => {
@@ -37,8 +45,8 @@ export default function Navbar() {
 
       const status = err.response?.data.isNew;
       if (status === false) {
-        alert("Anda sudah terdaftar sebagai organizer");
-        route.replace("/dashboard");
+        // alert("Anda sudah terdaftar sebagai organizer");
+        route.replace("/dashboard/eventspage");
       }
 
       if (!err) {
@@ -46,6 +54,13 @@ export default function Navbar() {
       }
     }
   };
+  const handlerLogout = () => {
+    logout();
+    route.replace("/");
+  };
+  useEffect(() => {
+    initialize();
+  }, []);
 
   return (
     <nav className=" flex justify-center ">
@@ -119,6 +134,7 @@ export default function Navbar() {
             </PopoverContent>
           </Popover>
 
+          {/* Drop Down */}
           <Popover>
             <PopoverTrigger className="bg-blue-green font-poppins text-white  font-semibold rounded-full flex-grow min-w-17 py-[10px] max-w-30 group relative flex justify-center items-center lg:hidden hover:bg-blue-green overflow-hidden cursor-pointer">
               <Menu className="h-4 w-4 " />
@@ -134,25 +150,43 @@ export default function Navbar() {
                 <span className="z-10">Create Event</span>
                 <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
               </Button>
-              <Button
-                variant={"ghost"}
-                className="font-poppins rounded-full cursor-pointer"
-                onClick={() => route.push("/login")}
-              >
-                Sign In
-              </Button>
-              <Button
-                className="bg-ut-orange font-poppins rounded-full  group relative hover:bg-ut-orange overflow-hidden cursor-pointer"
-                onClick={() => route.push("/register")}
-              >
-                <span className="z-10">Sign Up</span>
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
-              </Button>
+              {/* Start */}
+              {token ? (
+                <div>
+                  <Button
+                    className="w-full font-poppins rounded-full cursor-pointer bg-red-500 hover:bg-red-400"
+                    onClick={() => route.push("/login")}
+                  >
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <Button
+                    variant={"ghost"}
+                    className="font-poppins rounded-full cursor-pointer"
+                    onClick={() => route.push("/login")}
+                  >
+                    Sign In
+                  </Button>
+                  <Button
+                    className="bg-ut-orange font-poppins rounded-full  group relative hover:bg-ut-orange overflow-hidden cursor-pointer"
+                    onClick={() => route.push("/register")}
+                  >
+                    <span className="z-10">Sign Up</span>
+                    <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
+                  </Button>
+                </div>
+              )}
+
+              {/* End */}
 
               <PopoverArrow />
             </PopoverContent>
           </Popover>
         </div>
+
+        {/* Normal */}
 
         <div className="hidden lg:block transition-all  ">
           <div className="flex gap-3 items-center ">
@@ -164,20 +198,33 @@ export default function Navbar() {
               <span className="z-10">Create Event</span>
               <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
             </Button>
-            <Button
-              variant={"ghost"}
-              className="font-poppins rounded-full cursor-pointer"
-              onClick={() => route.push("/login")}
-            >
-              Sign In
-            </Button>
-            <Button
-              className="bg-ut-orange font-poppins rounded-full  group relative hover:bg-ut-orange overflow-hidden cursor-pointer"
-              onClick={() => route.push("/register")}
-            >
-              <span className="z-10">Sign Up</span>
-              <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
-            </Button>
+            {token ? (
+              <div>
+                <Button
+                  className="font-poppins rounded-full cursor-pointer bg-red-500 hover:bg-red-400"
+                  onClick={handlerLogout}
+                >
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Button
+                  variant={"ghost"}
+                  className="font-poppins rounded-full cursor-pointer"
+                  onClick={() => route.push("/login")}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  className="bg-ut-orange font-poppins rounded-full  group relative hover:bg-ut-orange overflow-hidden cursor-pointer"
+                  onClick={() => route.push("/register")}
+                >
+                  <span className="z-10">Sign Up</span>
+                  <div className="absolute inset-0 bg-white/0 group-hover:bg-white/17 duration-200 transition-colors z-0 mix-blend-overlay "></div>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

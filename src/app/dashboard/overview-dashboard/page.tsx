@@ -59,7 +59,7 @@ function MainDashboardPage() {
     },
     {
       id: 3,
-      name: "Upcoming Events",
+      name: "Total Customer",
       icon: <CircleDollarSign />,
       content: 999,
       desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti, repellat.",
