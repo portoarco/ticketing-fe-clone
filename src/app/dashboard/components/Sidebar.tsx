@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/authStore";
+import { useUserStore } from "@/store/userStore";
 import clsx from "classnames";
 import {
   ChartBarBig,
@@ -54,9 +55,11 @@ function Sidebar({ className }: SidebarProps) {
   const route = useRouter();
   const pathname = usePathname();
   const logout = useAuthStore((state) => state.logout);
+  const resetProfile = useUserStore((state) => state.resetUserProfile);
 
   const handleLogout = () => {
     logout();
+    resetProfile();
     route.replace("/");
   };
 

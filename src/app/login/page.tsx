@@ -47,7 +47,7 @@ function LoginPage() {
       toast.success(`Login Success!`, {
         autoClose: 1000,
       });
-      // route.replace("/");
+      route.replace("/");
       console.log(res.data.result);
     } catch (error) {
       alert("There is something wrong");

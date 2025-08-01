@@ -39,6 +39,7 @@ export default function Navbar() {
       );
 
       alert("Berhasil Terdaftar");
+      route.push("/dashboard");
     } catch (error) {
       console.log(error);
       const err = error as AxiosError<{ isNew: boolean }>;
