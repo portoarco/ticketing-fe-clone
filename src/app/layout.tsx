@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import type { Metadata } from "next";
 import AuthProvider from "./components/AuthProvider";
 import Navbar from "@/components/NavBar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,19 +51,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const initialize = useAuthStore((state) => state.initialize);
-
-  // useEffect(() => {
-  //   initialize();
-  // }, []);
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppinsFont.variable} ${DMSansFont.variable} antialiased`}
       >
         <AuthProvider>
-          <Navbar />
+          <NavbarWrapper />
           <main>
             <ToastContainer />
             {children}

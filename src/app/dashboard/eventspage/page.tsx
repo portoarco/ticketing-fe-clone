@@ -1,11 +1,12 @@
 import Dashboard from "../components/DashboardLayout";
 
-function ManageEvents() {
+function EventsPage() {
   return (
-    <Dashboard>
-      <h1>This is manage events</h1>
-    </Dashboard>
+    <section>
+      <Dashboard>
+        <p>This is manage events</p>
+      </Dashboard>
+    </section>
   );
 }
-
-export default ManageEvents;
+export default EventsPage;

@@ -20,7 +20,7 @@ interface SidebarProps {
 const menu = [
   {
     id: 1,
-    name: "Dashboard",
+    name: "Overview",
     url: "/dashboard",
     icon: <ChartBarBig></ChartBarBig>,
   },
@@ -45,7 +45,7 @@ const menu = [
   {
     id: 5,
     name: "Account Settings",
-    url: "/settings",
+    url: "/dashboard/profile",
     icon: <Settings></Settings>,
   },
 ];
