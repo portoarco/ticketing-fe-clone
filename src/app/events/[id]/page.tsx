@@ -8,7 +8,7 @@ import { apiCall } from "@/helper/apiCall";
 import { notFound } from "next/navigation";
 
 interface IParams {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 async function getEvent(params: string): Promise<any | null> {
@@ -28,9 +28,9 @@ async function getEvent(params: string): Promise<any | null> {
 }
 
 export default async function EventDetailPage({ params }: IParams) {
-  const eventId = params.id;
+  const { id } = await params;
 
-  const eventData = await getEvent(eventId);
+  const eventData = await getEvent(id);
 
   if (!eventData) {
     notFound();
