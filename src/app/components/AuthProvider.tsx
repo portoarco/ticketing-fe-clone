@@ -10,8 +10,14 @@ interface AuthProviderProps {
 export default function AuthProvider({ children }: AuthProviderProps) {
   const { initialize, fetchUserProfile } = useAuthStore();
   useEffect(() => {
-    initialize();
-    fetchUserProfile();
+    const initializeAuth = async () => {
+      const tokenExist = await initialize();
+
+      if (tokenExist) {
+        await fetchUserProfile();
+      }
+    };
+    initializeAuth();
   }, [initialize, fetchUserProfile]);
 
   return <>{children}</>;
