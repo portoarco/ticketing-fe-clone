@@ -9,7 +9,7 @@ interface AuthState {
   login: (token: string) => void;
   logout: () => void;
   fetchUserProfile: () => Promise<void>;
-  initialize: () => void;
+  initialize: () => Promise<boolean>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -77,7 +77,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   // Eky - end
 
-  initialize: () => {
+  initialize: async () => {
     const token = localStorage.getItem("token");
     console.log("Initialize - token :", token);
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -85,9 +85,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     if (token && loggedIn) {
       console.log("Zustand di reset ulang, ini halaman awal");
-
-      set({ token, isLoggedIn: true });
-
+      await new Promise<void>((resolve) => {
+        set({ token, isLoggedIn: true });
+        resolve();
+      });
       return true;
     } else {
       console.log("Token ada, posisi sedang login");
