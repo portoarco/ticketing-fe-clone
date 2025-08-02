@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { apiCall } from "@/helper/apiCall";
+import { useAuthStore } from "@/store/authStore";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,15 +41,20 @@ function LoginPage() {
         password,
       });
 
+      const token = res.data.result.token;
+
       // set token to localstorage
       console.log(res.data.result.id);
-      localStorage.setItem("token", res.data.result.token);
+      // localStorage.setItem("token", res.data.result.token);
+      if (token) {
+        useAuthStore.getState().login(token);
+        route.replace("/");
+        console.log(res.data.result);
+      }
 
       toast.success(`Login Success!`, {
         autoClose: 1000,
       });
-      route.replace("/");
-      console.log(res.data.result);
     } catch (error) {
       alert("There is something wrong");
       console.log(error);
