@@ -8,10 +8,11 @@ interface AuthProviderProps {
 }
 
 export default function AuthProvider({ children }: AuthProviderProps) {
-  const initialize = useAuthStore((state) => state.initialize);
+  const { initialize, fetchUserProfile } = useAuthStore();
   useEffect(() => {
     initialize();
-  }, [initialize]);
+    fetchUserProfile();
+  }, [initialize, fetchUserProfile]);
 
   return <>{children}</>;
 }
