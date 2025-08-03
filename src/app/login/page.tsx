@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { apiCall } from "@/helper/apiCall";
 import { useAuthStore } from "@/store/authStore";
+import { useUserStore } from "@/store/userStore";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +19,18 @@ function LoginPage() {
   // login ref
   const inEmailRef = useRef<HTMLInputElement>(null);
   const inPasswordRef = useRef<HTMLInputElement>(null);
+  // globalstate
+  const {
+    first_name,
+    last_name,
+    email,
+    organizer_name,
+    phone_number,
+    referral_code,
+    isVerified,
+    avatar,
+    setUserProfile,
+  } = useUserStore();
 
   // route protection
   useEffect(() => {
@@ -43,11 +56,31 @@ function LoginPage() {
 
       const token = res.data.result.token;
 
-      // set token to localstorage
-      console.log(res.data.result.id);
       // localStorage.setItem("token", res.data.result.token);
       if (token) {
         useAuthStore.getState().login(token);
+
+        const response = await apiCall.get("/user/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const data = response.data.result;
+        const organizer_name =
+          response.data.organizer?.[0]?.organizer_name || "";
+
+        // save to global state
+
+        setUserProfile({
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email,
+          phone_number: data.phone_number,
+          referral_code: data.refferal_code,
+          organizer_name,
+          isVerified: data.isVerified,
+          avatar: data.avatar,
+        });
+
         route.replace("/");
         console.log(res.data.result);
       }

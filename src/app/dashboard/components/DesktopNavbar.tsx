@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "@/store/userStore";
 
 function DesktopNavbar() {
-  const { first_name, last_name, organizer_name, setUserProfile } =
+  const { first_name, last_name, organizer_name, avatar, setUserProfile } =
     useUserStore();
 
   useEffect(() => {
@@ -25,6 +25,7 @@ function DesktopNavbar() {
         setUserProfile({
           first_name: data.first_name || "",
           last_name: data.last_name || "",
+          avatar: data.avatar || "",
           organizer_name: organizer_data || "",
         });
       } catch (error) {
@@ -52,7 +53,7 @@ function DesktopNavbar() {
           </button>
           <div className="flex gap-x-3 items-center ">
             <Avatar className="size-10">
-              <AvatarImage src="/defaultavatar.png"></AvatarImage>
+              <AvatarImage src={avatar}></AvatarImage>
               <AvatarFallback></AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
