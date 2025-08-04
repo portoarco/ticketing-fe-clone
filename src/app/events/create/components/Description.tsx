@@ -59,7 +59,7 @@ export default function DescriptionCard({
                 id="event-description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="rounded-sm font-poppins text-prussian-blue border-prussian-blue/80 focus-visible:!ring-blue-green h-48 placeholder:font-poppins"
+                className="rounded-sm font-poppins text-prussian-blue border-prussian-blue/80 focus-visible:!ring-blue-green/80 h-48 placeholder:font-poppins  focus-visible:!ring-2"
                 placeholder="Write the details about the event here..."
               />
             </>
