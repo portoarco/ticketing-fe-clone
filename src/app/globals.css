@@ -23,6 +23,9 @@
   animation: fade-in-up 0.2s ease-in-out forwards;
 }
 
+.radio-dot-blue[data-state='checked']::after {
+  background-color: #3b82f6; 
+}
 
 @theme inline {
   --color-background: #e8f4fa;
