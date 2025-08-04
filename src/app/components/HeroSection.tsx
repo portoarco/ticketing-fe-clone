@@ -47,7 +47,7 @@ export default function HeroSection() {
   const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
 
   return (
-    <section className="flex justify-center relative  px-4 sm:px-8">
+    <section className="flex justify-center relative -mt-6 px-4 sm:px-8">
       <Carousel
         plugins={[plugin.current]}
         onMouseEnter={() => plugin.current.stop()}
