@@ -28,12 +28,12 @@ function Dashboard({ children }: DashboardProps) {
       return;
     }
 
-    if (isVerified === undefined) return; // tunggu sampai Zustand selesai
-    if (isVerified === false) {
-      toast.error("Create event first!");
-      route.replace("/");
-    }
-  }, [route, isVerified]);
+    // if (isVerified === undefined) return; // tunggu sampai Zustand selesai
+    // if (isVerified === false) {
+    //   toast.error("Create event first!");
+    //   route.replace("/");
+    // }
+  }, [route]);
 
   // if (loading) {
   //   return <p className="text-center text-lg">Loading dashboard..</p>;
