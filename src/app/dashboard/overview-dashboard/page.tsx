@@ -86,7 +86,7 @@ function MainDashboardPage() {
           className="mt-4  grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 max-xl:gap-y-5 gap-x-5 "
         >
           {summaryCard.map((e) => (
-            <Card key={e.id} className="shadow-md ">
+            <Card key={e.id} className="shadow-md p-6 ">
               <CardHeader className="">
                 <div className="flex items-center justify-between ">
                   <div className="flex gap-x-2 items-center ">

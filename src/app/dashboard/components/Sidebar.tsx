@@ -10,6 +10,7 @@ import {
   Receipt,
   Rows3,
   Settings,
+  SquarePen,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
@@ -27,21 +28,21 @@ const menu = [
   },
   {
     id: 2,
-    name: "Manage Events",
+    name: "Create Events",
     url: "/dashboard/eventspage",
-    icon: <Rows3></Rows3>,
+    icon: <SquarePen></SquarePen>,
   },
   {
     id: 3,
-    name: "Transactions",
-    url: "/dashboard/transactions",
-    icon: <Receipt></Receipt>,
+    name: "Manage Events",
+    url: "#",
+    icon: <Rows3></Rows3>,
   },
   {
     id: 4,
-    name: "Manage Articles",
-    url: "/articles",
-    icon: <NotepadText></NotepadText>,
+    name: "Transactions",
+    url: "/dashboard/transactions",
+    icon: <Receipt></Receipt>,
   },
   {
     id: 5,

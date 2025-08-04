@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { Update } from "next/dist/build/swc/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { error } from "console";
+import { toast } from "react-toastify";
 
 function ProfileSettings() {
   // zod update schema
@@ -56,8 +57,13 @@ function ProfileSettings() {
         },
       });
 
-      const data = res.data.result;
-      console.log(res);
+      // const data = res.data.result;
+      // console.log(res);
+
+      toast.success("Successfuly Update Data", {
+        position: "top-center",
+        autoClose: 1000,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -123,7 +129,7 @@ function ProfileSettings() {
       userData();
     }
     userData();
-  }, [reset, setUserProfile]);
+  }, []);
 
   return (
     <section>
