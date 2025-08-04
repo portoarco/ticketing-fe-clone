@@ -1,11 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./Mobilenavbar";
 import SearchBar from "./SearchBar";
+import { apiCall } from "@/helper/apiCall";
+import { useUserStore } from "@/store/userStore";
+import { toast } from "react-toastify";
 
 interface DashboardProps {
   children: ReactNode;
@@ -14,12 +17,27 @@ interface DashboardProps {
 function Dashboard({ children }: DashboardProps) {
   const route = useRouter();
 
+  const [loading, setLoading] = useState(true);
+  const { isVerified } = useUserStore();
+
   // Route protection
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
+    const token = localStorage.getItem("token");
+    if (!token) {
       route.replace("/login");
+      return;
     }
-  }, []);
+
+    if (isVerified === undefined) return; // tunggu sampai Zustand selesai
+    if (isVerified === false) {
+      toast.error("Create event first!");
+      route.replace("/");
+    }
+  }, [route, isVerified]);
+
+  // if (loading) {
+  //   return <p className="text-center text-lg">Loading dashboard..</p>;
+  // }
 
   return (
     <section id="dashboard-page" className="">

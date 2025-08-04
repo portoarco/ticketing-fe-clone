@@ -56,6 +56,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         organizer_name,
         phone_number,
         referral_code,
+        isVerified,
       } = res.data.result;
 
       useUserStore.getState().setUserProfile({
@@ -65,6 +66,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         organizer_name,
         phone_number,
         referral_code,
+        isVerified,
       });
 
       const newToken = res.data.token;
