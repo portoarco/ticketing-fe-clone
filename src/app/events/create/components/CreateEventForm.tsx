@@ -15,25 +15,17 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { apiCall } from "@/helper/apiCall";
-import {
-  Select,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectContent,
-  SelectGroup,
-  SelectValue,
-} from "@/components/ui/select";
-import { da, is } from "date-fns/locale";
+
 import { Button } from "@/components/ui/button";
-import BasicInfoCard from "./components/BasicInfoCard";
-import DateAndLocation from "./components/DateAndLocation";
-import DescriptionCard from "./components/Description";
-import AddTicketsCard from "./components/AddTicketsCard";
+
 import { DateRange, isDateRange } from "react-day-picker";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useAuthStore } from "@/store/authStore";
+import BasicInfoCard from "@/app/events/create/components/BasicInfoCard";
+import DateAndLocationCard from "@/app/events/create/components/DateAndLocation";
+import DescriptionCard from "@/app/events/create/components/Description";
+import AddTicketsCard from "@/app/events/create/components/AddTicketsCard";
 
 export default function CreateEventPage() {
   const router = useRouter();
@@ -206,7 +198,7 @@ export default function CreateEventPage() {
           />
           {/* Event Title or Basic Info -- end */}
 
-          <DateAndLocation
+          <DateAndLocationCard
             eventType={eventType}
             setEventType={setEventType}
             date={date}
