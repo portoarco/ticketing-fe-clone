@@ -23,7 +23,7 @@ export default function TimePicker({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-full font-poppins bg-white text-prussian-blue  border-prussian-blue/80 shadow-transparent"
+            className="w-full font-poppins  text-prussian-blue  border-prussian-blue/80 shadow-transparent"
           >
             {value}
           </Button>

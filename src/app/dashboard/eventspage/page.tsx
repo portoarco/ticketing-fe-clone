@@ -1,4 +1,4 @@
-import CreateEventPage from "@/app/events/create/components/CreateEventForm";
+import CreateEventForm from "@/app/events/create/components/CreateEventForm";
 import Dashboard from "../components/DashboardLayout";
 
 function EventsPage() {
@@ -7,7 +7,7 @@ function EventsPage() {
       <Dashboard>
         {/* <p>This is manage events</p> */}
 
-        <CreateEventPage />
+        <CreateEventForm />
       </Dashboard>
     </section>
   );

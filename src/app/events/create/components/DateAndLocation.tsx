@@ -19,7 +19,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { apiCall } from "@/helper/apiCall";
-import { Calendar1, CalendarRange, Dot, Plus } from "lucide-react";
+import {
+  Calendar1,
+  CalendarIcon,
+  CalendarRange,
+  Dot,
+  Plus,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { DateRange, isDateRange } from "react-day-picker";
 import { FaMapMarkedAlt } from "react-icons/fa";
@@ -136,7 +142,7 @@ export default function DateAndLocationCard({
           </button>
 
           {isEditing ? (
-            <div className="w-full grid grid-cols-1 cursor-default">
+            <div className="w-full grid  grid-cols-1 cursor-default">
               <div className="flex flex-col gap-5 pb-5 px-10">
                 <h1 className="font-poppins font-semibold text-2xl text-prussian-blue">
                   Date and Location
@@ -160,7 +166,7 @@ export default function DateAndLocationCard({
                   <h2 className="font-poppins font-semibold text-lg text-prussian-blue/90 mb-1">
                     Type Event
                   </h2>
-                  <div className="grid grid-cols-2 items-center gap-4 font-poppins text-prussian-blue">
+                  <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 font-poppins text-prussian-blue">
                     <label htmlFor="s1" className="cursor-pointer">
                       <div
                         className={`p-5 grid grid-cols-[auto_1fr_auto] gap-5 justify-center items-center rounded-md border  hover:ring-blue-green ring-2 ring-transparent transition-all  ${
@@ -206,11 +212,11 @@ export default function DateAndLocationCard({
                         Date and time
                       </h2>
                     </div>
-                    <div className="grid grid-cols-[1fr_0.5fr_0.5fr]  gap-5">
-                      <div>
+                    <div className="grid grid-cols-2 md:grid-cols-[1fr_0.5fr_0.5fr]  gap-5">
+                      <div className="col-span-3 md:col-span-1">
                         <label
                           htmlFor="date"
-                          className="px-2 font-poppins text-xs"
+                          className="px-2 font-poppins text-xs text-prussian-blue"
                         >
                           Date
                         </label>
@@ -218,8 +224,9 @@ export default function DateAndLocationCard({
                           <PopoverTrigger asChild>
                             <Button
                               variant="outline"
-                              className="w-full justify-start text-left font-normal font-poppins bg-white text-prussian-blue  border-prussian-blue/80 shadow-transparent"
+                              className="w-full  justify-start text-left font-normal rounded-sm border-prussian-blue/80 text-prussian-blue/80 font-poppins placeholder:font-poppins"
                             >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
                               {(() => {
                                 if (!date) {
                                   return "Select date and time";
@@ -278,7 +285,7 @@ export default function DateAndLocationCard({
                       <div>
                         <label
                           htmlFor="startTime"
-                          className="px-2 font-poppins text-xs"
+                          className="px-2 font-poppins text-xs text-prussian-blue"
                         >
                           Start time
                         </label>
@@ -288,7 +295,7 @@ export default function DateAndLocationCard({
                       <div>
                         <label
                           htmlFor="endTime"
-                          className="px-2 font-poppins text-xs"
+                          className="px-2 font-poppins text-xs text-prussian-blue"
                         >
                           End time
                         </label>
@@ -345,7 +352,7 @@ export default function DateAndLocationCard({
                     <Input
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      className="rounded-sm font-poppins text-prussian-blue border-prussian-blue/80 focus-visible:!ring-blue-green"
+                      className="rounded-sm font-poppins text-prussian-blue border-prussian-blue/80 focus-visible:!ring-blue-green  focus-visible:!ring-2"
                     ></Input>
                   </div>
                 </div>
@@ -358,8 +365,8 @@ export default function DateAndLocationCard({
                   Date & Time
                 </h1>
                 <div className="flex items-center gap-2 font-poppins">
-                  <FaCalendarCheck className="text-prussian-blue" />
-                  <span className="text-xs font-semibold text-prussian-blue flex items-center">
+                  <FaCalendarCheck className="text-blue-green" />
+                  <span className="text-xs font-semibold text-blue-green flex items-center">
                     {(() => {
                       if (!date) {
                         return "Select date and time";
@@ -412,8 +419,8 @@ export default function DateAndLocationCard({
                   Location
                 </h1>
                 <div className="flex items-center gap-2 font-poppins">
-                  <FaMapMarkedAlt className="text-prussian-blue" />
-                  <span className="text-xs font-semibold text-prussian-blue">
+                  <FaMapMarkedAlt className="text-blue-green" />
+                  <span className="text-xs font-semibold text-blue-green">
                     {selectedCity && address
                       ? `${address}, ${selectedCity}`
                       : "Enter a location"}

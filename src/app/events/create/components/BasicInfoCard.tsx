@@ -106,10 +106,10 @@ export default function BasicInfoCard({
                     id="event-title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="rounded-sm font-poppins text-prussian-blue border-prussian-blue/80 focus-visible:!ring-blue-green"
+                    className="rounded-sm font-poppins text-prussian-blue border-prussian-blue/80 focus-visible:!ring-blue-green focus-visible:!ring-2"
                     placeholder="Type your event title here..."
                   ></Input>
-                  <p className="text-xs font-poppins  text-prussian-blue/80 mt-1.5 ml-1">
+                  <p className="text-xs font-poppins  text-prussian-blue/80 mt-1.5 ml-3">
                     Max 75 characters
                   </p>
                   <label htmlFor=""></label>
@@ -150,7 +150,7 @@ export default function BasicInfoCard({
                     {title ? title : "Event title"}
                   </h1>
                 </label>
-                <h2 className="text-prussian-blue/80 font-poppins font-semibold">
+                <h2 className="text-blue-green font-poppins font-semibold">
                   {selectedCategory ? selectedCategory : "Event's category"}
                 </h2>
               </>
