@@ -35,7 +35,7 @@ const menu = [
   {
     id: 3,
     name: "Manage Events",
-    url: "#",
+    url: "/dashboard/manage-events",
     icon: <Rows3></Rows3>,
   },
   {

@@ -8,15 +8,80 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { apiCall } from "@/helper/apiCall";
 import { Download, Mail, PhoneCall, Ticket } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+
+interface TransactionDetails {
+  id: string;
+  proof: string;
+  quantity: number;
+  amount: number;
+  isConfirmed: boolean;
+  paid_at: Date;
+  transaction_status: string;
+  detail_event: {
+    name: string;
+    start_date: string;
+    end_date: string | null;
+    location_Event: {
+      city: string;
+      address: string;
+    };
+    category_event: {
+      name: string;
+    };
+  };
+  user: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone_number: string;
+    avatar: string;
+  };
+}
 
 interface ViewDetailsProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  transaction: TransactionDetails | null;
 }
 
-function ViewDetails({ open, onOpenChange }: ViewDetailsProps) {
+// Helper untuk format tanggal
+const formatDate = (dateString: string | null) => {
+  if (!dateString) return "-"; // Kalau null atau undefined
+  return new Date(dateString).toLocaleDateString("id-ID", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+const formatTime = (dateString: string | null) => {
+  if (!dateString) return "-";
+  return new Date(dateString).toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
+function ViewDetails({ open, onOpenChange, transaction }: ViewDetailsProps) {
+  const [paymentDetail, setPaymentDetail] = useState<TransactionDetails | null>(
+    null
+  );
+
+  const getPaymentDetails = () => {
+    // console.log(transaction);
+    setPaymentDetail(transaction);
+    console.log(paymentDetail);
+
+    if (!transaction) {
+      console.log("No Transaction");
+      return;
+    }
+  };
+
   // Badge color payment
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -33,13 +98,15 @@ function ViewDetails({ open, onOpenChange }: ViewDetailsProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-auto max-w-fit p-6 bg-white">
+      <DialogContent className="w-full max-w-fit p-6 bg-white">
         <DialogHeader>
           <div className="flex gap-x-2 items-center">
             <Ticket className="text-blue-600 size-7"></Ticket>
             <DialogTitle>Payment Details</DialogTitle>
           </div>
-          <DialogDescription>Transaction TIX-505050</DialogDescription>
+          <DialogDescription>
+            Transaction ID : {transaction?.id.slice(0, 5).toUpperCase()}
+          </DialogDescription>
         </DialogHeader>
         {/* Profile */}
         <div
@@ -48,28 +115,28 @@ function ViewDetails({ open, onOpenChange }: ViewDetailsProps) {
         >
           <div id="avatar">
             <Avatar className="size-11 border-3 border-blue-200">
-              <AvatarImage></AvatarImage>
+              <AvatarImage src={transaction?.user.avatar}></AvatarImage>
               <AvatarFallback>ID</AvatarFallback>
             </Avatar>
           </div>
           <div id="user-details">
-            <p className="font-bold">Ahmad Ramdani</p>
-            <p>ahmadramdani@mail.com</p>
-            <p>+6287788787</p>
+            <p className="font-bold">
+              {transaction?.user.first_name} {transaction?.user.last_name}
+            </p>
+            <p>{transaction?.user.email}</p>
+            <p>{transaction?.user.phone_number}</p>
           </div>
         </div>
         {/* Event Details */}
         <div id="event-details">
           <div id="name">
             <p className="text-md text-gray-500 font-semibold">Event</p>
-            <p className="font-semibold">
-              Jakartanensis - Pandji Manusia Udang
-            </p>
+            <p className="font-semibold">{transaction?.detail_event.name}</p>
           </div>
           <div id="date-time" className="flex gap-x-10 mt-3">
             <div>
               <p className="text-md text-gray-500 font-semibold">Date</p>
-              <p>15 Januari 2025</p>
+              <p>{formatDate(transaction?.detail_event.start_date || null)}</p>
             </div>
             <div>
               <p className="text-md text-gray-500 font-semibold">Time</p>
@@ -78,8 +145,10 @@ function ViewDetails({ open, onOpenChange }: ViewDetailsProps) {
           </div>
           <div id="venue" className="mt-3">
             <p className="text-md text-gray-500 font-semibold">Venue</p>
-            <p>Gelora Bung Tomo Stadium - New York</p>
-            <p className="text-sm mt-1">Jl.Polisi Istimewa No.5, USA</p>
+            <p>{transaction?.detail_event.location_Event.city}</p>
+            <p className="text-sm mt-1">
+              {transaction?.detail_event.location_Event.address}
+            </p>
           </div>
         </div>
 
@@ -89,15 +158,25 @@ function ViewDetails({ open, onOpenChange }: ViewDetailsProps) {
         <div id="payment-summary">
           <div id="purchase-date" className="flex justify-between">
             <p className="text-sm text-gray-500">Purchase Date</p>
-            <p className="text-sm font-semibold">15 April 2025</p>
+            <p className="text-sm font-semibold">
+              {formatDate(
+                transaction?.paid_at ? transaction.paid_at.toString() : null
+              )}
+            </p>
           </div>
           <div id="quantity" className="flex justify-between mt-3">
             <p className="text-sm text-gray-500">Quantity</p>
-            <p className="text-sm font-semibold">2 Ticket(s)</p>
+            <p className="text-sm font-semibold">
+              {transaction?.quantity} Ticket(s)
+            </p>
           </div>
           <div id="status" className="flex justify-between items-center mt-3">
             <p className="text-sm text-gray-500">Status</p>
-            <Badge className={getStatusColor("COMPLETED")}>Completed</Badge>
+            <Badge
+              className={getStatusColor(transaction?.transaction_status || "")}
+            >
+              {transaction?.transaction_status}
+            </Badge>
           </div>
         </div>
         {/* Total Amount */}
@@ -105,7 +184,13 @@ function ViewDetails({ open, onOpenChange }: ViewDetailsProps) {
 
         <div id="total-amount" className="flex justify-between items-center">
           <p className="font-semibold">Total Amount</p>
-          <p className="text-xl font-bold text-green-600">Rp 100.000</p>
+          <p
+            className={`text-xl font-bold bg-transparent p-2 rounded-lg ${getStatusColor(
+              transaction?.transaction_status || ""
+            )}`}
+          >
+            IDR {transaction?.amount}
+          </p>
         </div>
 
         <div id="sendnotif" className="flex gap-x-5">
@@ -118,10 +203,6 @@ function ViewDetails({ open, onOpenChange }: ViewDetailsProps) {
           <Button className="cursor-pointer bg-gray-600 hover:bg-gray-700">
             <PhoneCall />
             Contact
-          </Button>
-          <Button className="cursor-pointer">
-            <Download />
-            Receipt
           </Button>
         </div>
       </DialogContent>

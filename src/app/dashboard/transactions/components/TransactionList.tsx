@@ -28,9 +28,11 @@ import {
 import { Trash2 } from "lucide-react";
 import ViewDetails from "./ViewDetails";
 import { apiCall } from "@/helper/apiCall";
+import { useLoadingStore } from "@/store/loadingStore";
 
 interface TransactionDetails {
   id: string;
+  proof: string;
   quantity: number;
   amount: number;
   isConfirmed: boolean;
@@ -38,10 +40,22 @@ interface TransactionDetails {
   transaction_status: string;
   detail_event: {
     name: string;
+    start_date: string;
+    end_date: string | null;
+    location_Event: {
+      city: string;
+      address: string;
+    };
+    category_event: {
+      name: string;
+    };
   };
   user: {
     first_name: string;
     last_name: string;
+    email: string;
+    phone_number: string;
+    avatar: string;
   };
 }
 
@@ -52,6 +66,9 @@ function TransactionList() {
   const [openDetails, setOpenDetails] = useState(false);
   // transaction state
   const [transaction, setTransaction] = useState<TransactionDetails[]>([]);
+  // selected view transaction
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<TransactionDetails | null>(null);
 
   // get Data Transaction from DB
   const getData = async () => {
@@ -78,7 +95,9 @@ function TransactionList() {
     setOpenDialog(true);
   };
   //   open details handler
-  const detailsHandler = () => {
+  const detailsHandler = (transactionData: TransactionDetails) => {
+    // console.log(transactionData);
+    setSelectedTransaction(transactionData);
     setOpenDetails(true);
   };
 
@@ -97,11 +116,11 @@ function TransactionList() {
   };
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    //   getData(); // fetch ulang tiap 5 MENIT
-    // }, 300000);
-    getData();
-    // return () => clearInterval(interval); // cleanup
+    const interval = setInterval(() => {
+      getData(); // fetch ulang tiap 5 MENIT
+    }, 5000);
+    // getData();
+    return () => clearInterval(interval); // cleanup
   }, []);
 
   return (
@@ -192,7 +211,7 @@ function TransactionList() {
                     <TableCell className="text-center">
                       <Button
                         className="cursor-pointer bg-blue-600 hover:bg-blue-700"
-                        onClick={detailsHandler}
+                        onClick={() => detailsHandler(data)}
                       >
                         View Details
                       </Button>
@@ -218,9 +237,17 @@ function TransactionList() {
       </Card>
 
       {/* review payment dialog */}
-      <CheckPayment open={openDialog} onOpenChange={setOpenDialog} />
+      <CheckPayment
+        open={openDialog}
+        onOpenChange={setOpenDialog}
+        transaction={selectedTransaction}
+      />
       {/* view details dialog */}
-      <ViewDetails open={openDetails} onOpenChange={setOpenDetails} />
+      <ViewDetails
+        open={openDetails}
+        onOpenChange={setOpenDetails}
+        transaction={selectedTransaction}
+      />
     </section>
   );
 }
