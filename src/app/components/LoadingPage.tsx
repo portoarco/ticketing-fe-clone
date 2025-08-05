@@ -9,9 +9,9 @@ export default function LoadingPage({
   className?: string;
 }) {
   const sizeClasses = {
-    sm: "h-4 w-4",
-    default: "h-6 w-6",
-    lg: "h-8 w-8",
+    sm: "h-10 w-10",
+    default: "h-15 w-15",
+    lg: "h-20 w-20",
   };
 
   return (

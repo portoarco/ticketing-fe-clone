@@ -16,6 +16,8 @@ import { error } from "console";
 import { toast } from "react-toastify";
 
 function ProfileSettings() {
+  // loading screen
+
   // zod update schema
   const {
     register,
@@ -82,18 +84,17 @@ function ProfileSettings() {
   } = useUserStore();
 
   useEffect(() => {
-    const userData = async () => {
+    const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
+
         const res = await apiCall.get("/user/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
+
         const data = res.data.result;
-        // const organizer_name = res.data.result.organizer[0].organizer_name;
-        console.log(data);
-        const organizer_name = res.data.result.organizer[0].organizer_name;
-        console.log(organizer_name);
+        const organizerName = data.organizer?.[0]?.organizer_name || "";
 
         setUserProfile({
           first_name: data.first_name,
@@ -101,7 +102,7 @@ function ProfileSettings() {
           email: data.email,
           phone_number: data.phone_number,
           referral_code: data.refferal_code,
-          organizer_name: organizer_name,
+          organizer_name: organizerName,
           isVerified: data.isVerified,
         });
 
@@ -110,26 +111,15 @@ function ProfileSettings() {
           last_name: data.last_name,
           email: data.email,
           phone_number: data.phone_number,
-          organizer_name,
+          organizer_name: organizerName,
         });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
-    if (
-      !first_name &&
-      !last_name &&
-      !email &&
-      !phone_number &&
-      !referral_code &&
-      !organizer_name &&
-      !isVerified
-    ) {
-      userData();
-    }
-    userData();
-  }, []);
+    fetchUserData();
+  }, [reset, setUserProfile]);
 
   return (
     <section>

@@ -29,6 +29,7 @@ import { Trash2 } from "lucide-react";
 import ViewDetails from "./ViewDetails";
 import { apiCall } from "@/helper/apiCall";
 import { useLoadingStore } from "@/store/loadingStore";
+import { toast } from "react-toastify";
 
 interface TransactionDetails {
   id: string;
@@ -69,6 +70,10 @@ function TransactionList() {
   // selected view transaction
   const [selectedTransaction, setSelectedTransaction] =
     useState<TransactionDetails | null>(null);
+  // sort order by latest/oldest
+  const [sortOrder, setSortOrder] = useState("latest-first");
+  // sort order by status
+  const [statusFilter, setStatusFilter] = useState("ALL");
 
   // get Data Transaction from DB
   const getData = async () => {
@@ -77,21 +82,26 @@ function TransactionList() {
       const res = await apiCall.get("/transaction/detail", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(res);
-      console.log("pemisah bos");
-      console.log(res.data);
-      console.log("pemisah bos");
-      console.log(res.data.data);
 
       const transactionDetailsData = res.data.data;
+      // sort data
+      // const filtered = sortTransactions(transactionDetailsData, sortOrder);
 
-      setTransaction(transactionDetailsData);
+      const filtered = filterTransactionsByStatus(
+        transactionDetailsData,
+        statusFilter
+      );
+      const sorted = sortTransactions(filtered, sortOrder);
+
+      // setTransaction(transactionDetailsData);
+      setTransaction(sorted);
     } catch (error) {
       console.log(error);
     }
   };
   // open dialog handler
-  const handlerOpenDialog = () => {
+  const handlerOpenDialog = (transactionData: TransactionDetails) => {
+    setSelectedTransaction(transactionData);
     setOpenDialog(true);
   };
   //   open details handler
@@ -99,6 +109,48 @@ function TransactionList() {
     // console.log(transactionData);
     setSelectedTransaction(transactionData);
     setOpenDetails(true);
+  };
+  // delete transaction
+  const deleteSelected = async (id: string) => {
+    // console.log(id);
+    const confirmation = confirm("Are you sure delete this data?");
+    if (!confirmation) return;
+
+    const token = localStorage.getItem("token");
+    try {
+      const res = await apiCall.delete(`/transaction/delete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(res);
+      setTransaction((prev) => prev.filter((trx) => trx.id !== id));
+      toast.success("Delete Data Success");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something Wrong");
+    }
+  };
+  // sorting function by latest/oldest
+  const sortTransactions = (data: TransactionDetails[], order: string) => {
+    return [...data].sort((a, b) => {
+      const dateA = new Date(a.paid_at).getTime();
+      const dateB = new Date(b.paid_at).getTime();
+
+      if (order === "latest-first") {
+        return dateB - dateA;
+      } else {
+        return dateA - dateB;
+      }
+    });
+  };
+  // sorting by status
+  const filterTransactionsByStatus = (
+    data: TransactionDetails[],
+    status: string
+  ) => {
+    if (status === "ALL") return data;
+    return data.filter(
+      (trx) => trx.transaction_status.toLowerCase() === status.toLowerCase()
+    );
   };
 
   // payment status color
@@ -117,12 +169,13 @@ function TransactionList() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      getData(); // fetch ulang tiap 5 MENIT
+      getData(); // fetch ulang tiap 30detik
     }, 5000);
     // getData();
     return () => clearInterval(interval); // cleanup
   }, []);
 
+  // sorting useEffect
   return (
     <section>
       <Card className="p-6 w-full">
@@ -138,7 +191,13 @@ function TransactionList() {
           </div>
           <div className="flex gap-x-2">
             {/* Filter Latest-Oldest */}
-            <Select>
+
+            <Select
+              onValueChange={(value) => {
+                setSortOrder(value);
+                setTransaction((prev) => sortTransactions(prev, value));
+              }}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
@@ -149,15 +208,18 @@ function TransactionList() {
             </Select>
 
             {/* Filter Status */}
-            <Select>
+            <Select
+              value={statusFilter}
+              onValueChange={(value) => setStatusFilter(value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Filter by Status"></SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="paid">Paid</SelectItem>
-                <SelectItem value="rejected">Rejected</SelectItem>
+                <SelectItem value="ALL">All Status</SelectItem>
+                <SelectItem value="PENDING">Pending</SelectItem>
+                <SelectItem value="PAID">Paid</SelectItem>
+                <SelectItem value="REJECTED">Rejected</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -190,7 +252,11 @@ function TransactionList() {
                     </TableCell>
                     <TableCell className="text-center">
                       {data.paid_at
-                        ? new Date(data.paid_at).toLocaleDateString()
+                        ? new Date(data.paid_at).toLocaleDateString("id-ID", {
+                            day: "numeric",
+                            month: "numeric",
+                            year: "numeric",
+                          })
                         : "-"}
                     </TableCell>
                     <TableCell className="text-center">
@@ -203,7 +269,7 @@ function TransactionList() {
                     <TableCell className="text-center">
                       <Button
                         className="cursor-pointer"
-                        onClick={handlerOpenDialog}
+                        onClick={() => handlerOpenDialog(data)}
                       >
                         Review Payment
                       </Button>
@@ -217,7 +283,10 @@ function TransactionList() {
                       </Button>
                     </TableCell>
                     <TableCell className="text-center">
-                      <button className="cursor-pointer">
+                      <button
+                        className="cursor-pointer"
+                        onClick={() => deleteSelected(data.id)}
+                      >
                         <Trash2></Trash2>
                       </button>
                     </TableCell>

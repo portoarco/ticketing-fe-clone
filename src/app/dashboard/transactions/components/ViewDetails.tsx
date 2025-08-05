@@ -85,7 +85,7 @@ function ViewDetails({ open, onOpenChange, transaction }: ViewDetailsProps) {
   // Badge color payment
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "COMPLETED":
+      case "PAID":
         return "bg-green-100 text-green-800 hover:bg-green-100";
       case "PENDING":
         return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100";

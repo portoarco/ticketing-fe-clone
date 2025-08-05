@@ -41,7 +41,6 @@ function Dashboard({ children }: DashboardProps) {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log(res.data);
-        setLoading(false);
       } catch (err) {
         const error = err as AxiosError;
         const status = error.response?.status;
@@ -66,7 +65,7 @@ function Dashboard({ children }: DashboardProps) {
     };
 
     checkAuth();
-  }, [route, setLoading]);
+  }, [route]);
 
   if (isLoading) {
     return <LoadingPage></LoadingPage>;
