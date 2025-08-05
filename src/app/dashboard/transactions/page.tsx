@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardContent,
@@ -9,44 +10,79 @@ import Dashboard from "../components/DashboardLayout";
 import { BadgeCheck, BadgeDollarSign, CircleX, FileClock } from "lucide-react";
 import TransactionList from "./components/TransactionList";
 import { apiCall } from "@/helper/apiCall";
+import { useEffect, useState } from "react";
+import { useLoadingStore } from "@/store/loadingStore";
+import LoadingPage from "@/app/components/LoadingPage";
 
-const transactionCard = [
-  // {
-  //   id: 1,
-  //   icon: <BadgeDollarSign></BadgeDollarSign>,
-  //   name: "Transactions",
-  //   content: 90,
-  // },
-  {
-    id: 1,
-    icon: <FileClock></FileClock>,
-    name: "Pending",
-    content: 90,
-  },
-  {
-    id: 2,
-    icon: <BadgeCheck></BadgeCheck>,
-    name: "Success",
-    content: 90,
-  },
-  {
-    id: 3,
-    icon: <CircleX></CircleX>,
-    name: "Rejected",
-    content: 90,
-  },
-];
+interface TransactionDetails {
+  id: string;
+  transaction_status: string;
+}
 
 function ManageTransactions() {
-  // get Data Transaction from DB
+  // store data useState
+  const [transaction, setTransaction] = useState<TransactionDetails[]>([]);
+  // const { isLoading, setLoading } = useLoadingStore();
+
+  // access data from db
   const getData = async () => {
     try {
-      const res = await apiCall.get("/transaction/detail");
-      console.log(res);
+      // setLoading(true);
+      const token = localStorage.getItem("token");
+      const res = await apiCall.get("/transaction/detail", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const transactionDetailsData = res.data.data;
+
+      setTransaction(transactionDetailsData);
     } catch (error) {
       console.log(error);
+    } finally {
+      // setLoading(false);
     }
   };
+
+  const transactionCard = [
+    {
+      id: 1,
+      icon: <BadgeDollarSign></BadgeDollarSign>,
+      name: "Transactions",
+      content: transaction.length,
+    },
+    {
+      id: 2,
+      icon: <FileClock></FileClock>,
+      name: "Pending",
+      content: transaction.filter((t) => t.transaction_status === "PENDING")
+        .length,
+    },
+    {
+      id: 3,
+      icon: <BadgeCheck></BadgeCheck>,
+      name: "Success",
+      content: transaction.filter((t) => t.transaction_status === "PAID")
+        .length,
+    },
+    {
+      id: 4,
+      icon: <CircleX></CircleX>,
+      name: "Rejected",
+      content: transaction.filter((t) => t.transaction_status === "REJECTED")
+        .length,
+    },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getData(); // fetch ulang tiap 30detik
+    }, 5000);
+    // getData();
+    return () => clearInterval(interval); // cleanup
+  }, []);
+
+  // if (isLoading) {
+  //   return <LoadingPage></LoadingPage>;
+  // }
 
   return (
     <section>
@@ -54,7 +90,7 @@ function ManageTransactions() {
         {/*  */}
         <div
           id="transaction-card"
-          className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-4"
+          className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-4"
         >
           {transactionCard.map((e) => (
             <Card key={e.id}>

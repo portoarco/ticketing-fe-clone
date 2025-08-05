@@ -9,7 +9,7 @@ interface UserState {
   phone_code: string;
   phone_number: string;
   referral_code: string;
-  isVerified: boolean;
+  isVerified: boolean | undefined;
   avatar: string;
   setUserProfile: (
     data: Partial<Omit<UserState, "setUserProfile" | "resetUserProfile">>
@@ -40,7 +40,7 @@ export const useUserStore = create<UserState>((set) => ({
       last_name: "",
       organizer_name: "",
       avatar: "",
-      isVerified: false,
+      isVerified: undefined,
       email: "",
       country: "",
       referral_code: "",

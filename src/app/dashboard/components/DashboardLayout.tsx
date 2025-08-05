@@ -9,6 +9,9 @@ import SearchBar from "./SearchBar";
 import { apiCall } from "@/helper/apiCall";
 import { useUserStore } from "@/store/userStore";
 import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { useLoadingStore } from "@/store/loadingStore";
+import LoadingPage from "@/app/components/LoadingPage";
 
 interface DashboardProps {
   children: ReactNode;
@@ -17,27 +20,56 @@ interface DashboardProps {
 function Dashboard({ children }: DashboardProps) {
   const route = useRouter();
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const { isVerified } = useUserStore();
+  // const [loading, setLoading] = useState(true);
+  const { isLoading, setLoading } = useLoadingStore();
 
   // Route protection
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      route.replace("/login");
-      return;
-    }
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
 
-    // if (isVerified === undefined) return; // tunggu sampai Zustand selesai
-    // if (isVerified === false) {
-    //   toast.error("Create event first!");
-    //   route.replace("/");
-    // }
+      if (!token) {
+        route.replace("/login");
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const res = await apiCall.get("/auth/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(res.data);
+      } catch (err) {
+        const error = err as AxiosError;
+        const status = error.response?.status;
+
+        console.log(status);
+
+        if (status === 403) {
+          toast.error("Please verify your account first!");
+          route.replace("/");
+        } else if (status === 404) {
+          toast.error("You have not been verified");
+          route.replace("/");
+        } else {
+          toast.error("Session expired or error");
+          localStorage.removeItem("token");
+          console.log(status);
+          route.replace("/login");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
   }, [route]);
 
-  // if (loading) {
-  //   return <p className="text-center text-lg">Loading dashboard..</p>;
-  // }
+  if (isLoading) {
+    return <LoadingPage></LoadingPage>;
+  }
 
   return (
     <section id="dashboard-page" className="">
