@@ -118,6 +118,7 @@ export default function EventListSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [inputValue, setInputValue] = useState(searchQuery);
   const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCursor, setIsLoadingCursor] = useState(false);
 
@@ -128,6 +129,7 @@ export default function EventListSection() {
         const fetchedData = await apiCall.get("/events/");
 
         setEvents(fetchedData.data);
+        setFilteredEvents(fetchedData.data);
         console.log("EventListSection - Fetched data : ", fetchedData.data);
       } catch (error) {
         console.log(error);
@@ -138,6 +140,10 @@ export default function EventListSection() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    filterEvent(events, searchQuery);
+  }, [searchQuery, activeCategory]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -151,6 +157,39 @@ export default function EventListSection() {
 
   function test(category: string) {
     console.log(category);
+  }
+
+  function filterEvent(event: any, searchQuery: string) {
+    const temp = (
+      activeCategory === "All"
+        ? events
+        : event.filter((item: any) => {
+            if (activeCategory === item.category_event.name) {
+              // console.log(
+              //   "EventListSection - Fetched data : ",
+              //   item.category_event.name
+              // );
+              // console.log(
+              //   "EventListSection - Fetched data : ",
+              //   item.location_Event.city
+              // );
+              // console.log("EventListSection - Fetched data : ", item.image);
+              return item;
+            }
+          })
+    ).filter((item: any) => {
+      return (
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.location_Event.city
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        item.category_event.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
+    });
+
+    setFilteredEvents(temp);
   }
 
   async function openEventDetailsPage(id: string) {
@@ -179,42 +218,23 @@ export default function EventListSection() {
             </p>
             <LoaderPinwheel className=" animate-spin text-blue-green " />
           </div>
+        ) : filteredEvents.length == 0 ? (
+          <>
+            <div className="flex flex-col gap-3 items-center justify-center col-span-full ">
+              <h3 className=" text-center text-prussian-blue font-poppins font-semibold ">
+                We couldn't find any events matching your search for "
+                {searchQuery}".
+              </h3>
+            </div>
+          </>
         ) : (
-          (activeCategory === "All"
-            ? events
-            : events.filter((item: any) => {
-                if (activeCategory === item.category_event.name) {
-                  // console.log(
-                  //   "EventListSection - Fetched data : ",
-                  //   item.category_event.name
-                  // );
-                  // console.log(
-                  //   "EventListSection - Fetched data : ",
-                  //   item.location_Event.city
-                  // );
-                  // console.log("EventListSection - Fetched data : ", item.image);
-                  return item;
-                }
-              })
-          )
-            .filter((item: any) => {
-              return (
-                item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.location_Event.city
-                  .toLowerCase()
-                  .includes(searchQuery.toLowerCase()) ||
-                item.category_event.name
-                  .toLowerCase()
-                  .includes(searchQuery.toLowerCase())
-              );
-            })
-            .map((item: any, index: any) => (
-              <EventCard
-                onClick={() => openEventDetailsPage(item.id)}
-                event={item}
-                key={index}
-              />
-            ))
+          filteredEvents.map((item: any, index: any) => (
+            <EventCard
+              onClick={() => openEventDetailsPage(item.id)}
+              event={item}
+              key={index}
+            />
+          ))
         )}
       </div>
     </section>

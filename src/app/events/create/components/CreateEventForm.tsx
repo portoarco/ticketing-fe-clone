@@ -26,19 +26,24 @@ import BasicInfoCard from "@/app/events/create/components/BasicInfoCard";
 import DateAndLocationCard from "@/app/events/create/components/DateAndLocation";
 import DescriptionCard from "@/app/events/create/components/Description";
 import AddTicketsCard from "@/app/events/create/components/AddTicketsCard";
+import { Promotion, TicketType } from "@/app/types/types";
 
 export default function CreateEventForm() {
   const router = useRouter();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState(0);
-  const [seats, setSeats] = useState(0);
+
+  const [ticketType, setTickeType] = useState<TicketType[]>([
+    { id: 1, name: "", price: 0, quantity: 0 },
+  ]);
+
+  const [isFree, setIsFree] = useState(false);
+
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+
   const [addPromotion, setAddPromotion] = useState(false);
-  const [discountPercentage, setDiscountPercentage] = useState(0);
-  const [voucherExpiryDate, setVoucherExpiryDate] = useState<Date | undefined>(
-    undefined
-  );
+
   const [eventType, setEventType] = useState("single");
   const [date, setDate] = useState<Date | DateRange | undefined>(undefined);
   const [startTime, setStarTime] = useState("10:00");
@@ -62,11 +67,39 @@ export default function CreateEventForm() {
   }
 
   useEffect(() => {
-    // console.log(title);
+    const isAnySeatEmpty = Boolean(
+      ticketType.find((item) => item.quantity < 1)
+    );
+
+    const isAnyFieldEmpty_ticketTypes = Boolean(
+      ticketType.find(
+        (item) => item.quantity < 1 || item.name.length < 1 || item.price < 1
+      )
+    );
+
+    let isAny_Promotion_Fields_Filled = !Boolean(promotions.length > 0);
+
+    if (promotions.length > 0) {
+      const isPromotionsFieldEmpty = Boolean(
+        promotions.find(
+          (item) =>
+            item.code.length < 1 ||
+            item.discountPercentage < 1 ||
+            item.expiryDate == undefined ||
+            item.startDate == undefined
+        )
+      );
+      isAny_Promotion_Fields_Filled = !isPromotionsFieldEmpty;
+    }
+
+    const is_AddTicketCards_Filled =
+      (!isFree && !isAnyFieldEmpty_ticketTypes) || (isFree && !isAnySeatEmpty);
+
     if (
       title &&
       description &&
-      seats &&
+      is_AddTicketCards_Filled &&
+      isAny_Promotion_Fields_Filled &&
       eventType &&
       date &&
       startTime &&
@@ -82,10 +115,10 @@ export default function CreateEventForm() {
     // console.log(isComplete);
   }, [
     isComplete,
+    promotions,
     title,
     description,
-    price,
-    seats,
+    ticketType,
     eventType,
     date,
     startTime,
@@ -139,8 +172,6 @@ export default function CreateEventForm() {
     const formData = {
       name: title,
       description: description,
-      price: price,
-      //   availableSeats: seats,
       start_date: startDateWithTime,
       end_date: endDateWithTime,
       event_category_name: selectedCategory,
@@ -160,16 +191,12 @@ export default function CreateEventForm() {
         data.append("end_date", endDateWithTime.toISOString());
       data.append("name", title);
       data.append("description", description);
-      data.append("price", price.toString());
       data.append("event_category_name", selectedCategory);
       data.append("city", selectedCity);
       data.append("address", address);
-      data.append("seats", seats.toString());
-      if (addPromotion) {
-        data.append("discountPercentage", discountPercentage.toString());
-        if (voucherExpiryDate)
-          data.append("voucherExpiryDate", voucherExpiryDate.toISOString());
-      }
+
+      data.append("tickets", JSON.stringify(ticketType));
+      data.append("promotions", JSON.stringify(promotions));
 
       const config = {
         headers: {
@@ -302,16 +329,14 @@ export default function CreateEventForm() {
           />
 
           <AddTicketsCard
-            price={price}
-            seats={seats}
-            setPrice={setPrice}
-            setSeats={setSeats}
+            ticketType={ticketType}
+            setTicketType={setTickeType}
+            isFree={isFree}
+            setIsFree={setIsFree}
+            promotions={promotions}
+            setPromotions={setPromotions}
             addPromotion={addPromotion}
             setAddPromotion={setAddPromotion}
-            discountPercentage={discountPercentage}
-            setDiscountPercentage={setDiscountPercentage}
-            voucherExpiryDate={voucherExpiryDate}
-            setVoucherExpiryDate={setVoucherExpiryDate}
           />
           <div className="flex justify-end mt-6">
             <Button

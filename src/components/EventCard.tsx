@@ -22,6 +22,11 @@ export default function EventCard({
     // console.log(event);
   }, []);
 
+  function getLowestPrice(event: any) {
+    const ticketPrices = event.ticketType.map((ticket: any) => ticket.price);
+    return Math.min(...ticketPrices);
+  }
+
   function roundToSpecifiedDigit(num: number, digits: number) {
     const factor = 10 ** (num.toString().length - digits);
     return Math.round(num / factor) * factor;
@@ -77,7 +82,8 @@ export default function EventCard({
               {months[new Date(event.start_date).getMonth()]}
             </span>
           </div>
-          {event.end_date ? (
+          {new Date(event.start_date).toLocaleDateString() !=
+          new Date(event.end_date).toLocaleDateString() ? (
             <>
               <div>
                 <LucideArrowBigRightDash size={18} />
@@ -118,12 +124,14 @@ export default function EventCard({
         <div className="">
           <p
             className={`font-poppins  font-bold  ${
-              event.price === 0 ? "text-selective-orange" : "text-blue-green"
+              getLowestPrice(event) === 0
+                ? "text-selective-orange"
+                : "text-blue-green"
             }`}
           >
-            {event.price === 0
+            {getLowestPrice(event) === 0
               ? "FREE"
-              : `${event.price.toLocaleString("id-ID", {
+              : `${getLowestPrice(event).toLocaleString("id-ID", {
                   style: "currency",
                   currency: "IDR",
                   minimumFractionDigits: 0,

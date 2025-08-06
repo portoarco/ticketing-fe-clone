@@ -143,170 +143,180 @@ export default function DateAndLocationCard({
 
           {isEditing ? (
             <div className="w-full grid  grid-cols-1 cursor-default">
-              <div className="flex flex-col gap-5 pb-5 px-10">
+              <div className="flex flex-col gap-5  px-10 ">
                 <h1 className="font-poppins font-semibold text-2xl text-prussian-blue">
                   Date and Location
                 </h1>
-                <RadioGroup
-                  defaultValue="single"
-                  value={eventType}
-                  onValueChange={(newType) => {
-                    setEventType(newType);
+                <div className="flex flex-col pt-4 pb-5 px-5 border rounded-sm ">
+                  <RadioGroup
+                    defaultValue="single"
+                    value={eventType}
+                    onValueChange={(newType) => {
+                      setEventType(newType);
 
-                    if (date) {
-                      if (newType === "single" && isDateRange(date)) {
-                        setDate(date.from || undefined);
-                      } else if (newType === "multi" && date instanceof Date) {
-                        setDate({ from: date, to: date });
+                      if (date) {
+                        if (newType === "single" && isDateRange(date)) {
+                          setDate(date.from || undefined);
+                        } else if (
+                          newType === "multi" &&
+                          date instanceof Date
+                        ) {
+                          setDate({ from: date, to: date });
+                        }
                       }
-                    }
-                  }}
-                  className="data-[state=checked]:text-white "
-                >
-                  <h2 className="font-poppins font-semibold text-lg text-prussian-blue/90 mb-1">
-                    Type Event
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 font-poppins text-prussian-blue">
-                    <label htmlFor="s1" className="cursor-pointer">
-                      <div
-                        className={`p-5 grid grid-cols-[auto_1fr_auto] gap-5 justify-center items-center rounded-md border  hover:ring-blue-green ring-2 ring-transparent transition-all  ${
-                          eventType == "single"
-                            ? "border-blue-green"
-                            : "border-prussian-blue/80 "
-                        }`}
-                      >
-                        <Calendar1 className="text-prussian-blue/80" />
-                        <p className="font-semibold text-prussian-blue/80">
-                          Single Event
-                        </p>
-                        <RadioGroupItem
-                          value="single"
-                          className="data-[state=checked]:bg-blue-green"
-                          id="s1"
-                        ></RadioGroupItem>
-                      </div>
-                    </label>
-                    <label htmlFor="m2" className="cursor-pointer">
-                      <div
-                        className={`p-5 grid grid-cols-[auto_1fr_auto] justify-center items-center gap-5  rounded-md  border hover:ring-blue-green ring-2 ring-transparent transition-all  ${
-                          eventType == "multi"
-                            ? "border-blue-green"
-                            : "border-prussian-blue/80 "
-                        } `}
-                      >
-                        <CalendarRange className="text-prussian-blue/80" />
-                        <p className="font-semibold text-prussian-blue/80 ">
-                          Recurring event
-                        </p>
-                        <RadioGroupItem
-                          value="multi"
-                          className=" data-[state=checked]:bg-blue-green"
-                          id="m2"
-                        ></RadioGroupItem>
-                      </div>
-                    </label>
-                  </div>
-                  <div className="flex flex-col mt-2 ">
-                    <div>
-                      <h2 className="font-poppins font-semibold text-lg text-prussian-blue/90  mb-2">
-                        Date and time
-                      </h2>
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-[1fr_0.5fr_0.5fr]  gap-5">
-                      <div className="col-span-3 md:col-span-1">
-                        <label
-                          htmlFor="date"
-                          className="px-2 font-poppins text-xs text-prussian-blue"
+                    }}
+                    className="data-[state=checked]:text-white "
+                  >
+                    <h2 className="font-poppins font-semibold text-lg text-prussian-blue/90 mb-1">
+                      Type Event
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 font-poppins text-prussian-blue">
+                      <label htmlFor="s1" className="cursor-pointer">
+                        <div
+                          className={`p-5 grid grid-cols-[auto_1fr_auto] gap-5 justify-center items-center rounded-md border  hover:ring-blue-green ring-2 ring-transparent transition-all  ${
+                            eventType == "single"
+                              ? "border-blue-green"
+                              : "border-prussian-blue/80 "
+                          }`}
                         >
-                          Date
-                        </label>
-                        <Popover open={open} onOpenChange={setOpen}>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full  justify-start text-left font-normal rounded-sm border-prussian-blue/80 text-prussian-blue/80 font-poppins placeholder:font-poppins"
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
-                              {(() => {
-                                if (!date) {
-                                  return "Select date and time";
-                                }
-                                if (isDateRange(date)) {
-                                  if (date.from && date.to) {
-                                    return `${date.from.toLocaleDateString()} - ${date.to.toLocaleDateString()}`;
-                                  }
-                                  return "Select a date range";
-                                }
-
-                                return (
-                                  <>
-                                    {`${(date as Date).toLocaleDateString()} `}
-                                  </>
-                                );
-                              })()}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="w-auto  border-blue-green border-2 rounded-lg p-0"
-                            align="start"
+                          <Calendar1 className="text-prussian-blue/80" />
+                          <p className="font-semibold text-prussian-blue/80">
+                            Single Event
+                          </p>
+                          <RadioGroupItem
+                            value="single"
+                            className="data-[state=checked]:bg-blue-green"
+                            id="s1"
+                          ></RadioGroupItem>
+                        </div>
+                      </label>
+                      <label htmlFor="m2" className="cursor-pointer">
+                        <div
+                          className={`p-5 grid grid-cols-[auto_1fr_auto] justify-center items-center gap-5  rounded-md  border hover:ring-blue-green ring-2 ring-transparent transition-all  ${
+                            eventType == "multi"
+                              ? "border-blue-green"
+                              : "border-prussian-blue/80 "
+                          } `}
+                        >
+                          <CalendarRange className="text-prussian-blue/80" />
+                          <p className="font-semibold text-prussian-blue/80 ">
+                            Recurring event
+                          </p>
+                          <RadioGroupItem
+                            value="multi"
+                            className=" data-[state=checked]:bg-blue-green"
+                            id="m2"
+                          ></RadioGroupItem>
+                        </div>
+                      </label>
+                    </div>
+                    <div className="flex flex-col mt-2 ">
+                      <div>
+                        <h2 className="font-poppins font-semibold text-lg text-prussian-blue/90  mb-2">
+                          Date and time
+                        </h2>
+                      </div>
+                      <div className="grid grid-cols-2 md:grid-cols-[1fr_0.5fr_0.5fr]  gap-5">
+                        <div className="col-span-3 md:col-span-1">
+                          <label
+                            htmlFor="date"
+                            className="px-2 font-poppins text-xs text-prussian-blue"
                           >
-                            {eventType === "single" ? (
-                              <Calendar
-                                className="text-prussian-blue font-poppins "
-                                mode="single"
-                                selected={date as Date}
-                                captionLayout="dropdown"
-                                onSelect={(date) => {
-                                  if (date) {
-                                    setDate(
-                                      isDateRange(date)
-                                        ? (date.from as Date)
-                                        : (date as Date)
-                                    );
-                                    setOpen(false);
+                            Date
+                          </label>
+                          <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className="w-full  justify-start text-left font-normal rounded-sm border-prussian-blue/80 text-prussian-blue/80 font-poppins placeholder:font-poppins"
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {(() => {
+                                  if (!date) {
+                                    return "Select date and time";
                                   }
-                                }}
-                              />
-                            ) : (
-                              <Calendar
-                                className="text-prussian-blue font-poppins "
-                                mode="range"
-                                selected={date as DateRange}
-                                captionLayout="dropdown"
-                                onSelect={(date) => {
-                                  if (date) setDate(date as DateRange);
-                                }}
-                              />
-                            )}
-                          </PopoverContent>
-                        </Popover>
-                      </div>
+                                  if (isDateRange(date)) {
+                                    if (date.from && date.to) {
+                                      return `${date.from.toLocaleDateString()} - ${date.to.toLocaleDateString()}`;
+                                    }
+                                    return "Select a date range";
+                                  }
 
-                      <div>
-                        <label
-                          htmlFor="startTime"
-                          className="px-2 font-poppins text-xs text-prussian-blue"
-                        >
-                          Start time
-                        </label>
-                        <TimePicker value={startTime} onChange={setStartTime} />
-                      </div>
+                                  return (
+                                    <>
+                                      {`${(
+                                        date as Date
+                                      ).toLocaleDateString()} `}
+                                    </>
+                                  );
+                                })()}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto  border-blue-green border-2 "
+                              align="start"
+                            >
+                              {eventType === "single" ? (
+                                <Calendar
+                                  className="text-prussian-blue font-poppins "
+                                  mode="single"
+                                  selected={date as Date}
+                                  captionLayout="dropdown"
+                                  onSelect={(date) => {
+                                    if (date) {
+                                      setDate(
+                                        isDateRange(date)
+                                          ? (date.from as Date)
+                                          : (date as Date)
+                                      );
+                                      setOpen(false);
+                                    }
+                                  }}
+                                />
+                              ) : (
+                                <Calendar
+                                  className="text-prussian-blue font-poppins "
+                                  mode="range"
+                                  selected={date as DateRange}
+                                  captionLayout="dropdown"
+                                  onSelect={(date) => {
+                                    if (date) setDate(date as DateRange);
+                                  }}
+                                />
+                              )}
+                            </PopoverContent>
+                          </Popover>
+                        </div>
 
-                      <div>
-                        <label
-                          htmlFor="endTime"
-                          className="px-2 font-poppins text-xs text-prussian-blue"
-                        >
-                          End time
-                        </label>
-                        <TimePicker value={endTime} onChange={setEndTime} />
+                        <div>
+                          <label
+                            htmlFor="startTime"
+                            className="px-2 font-poppins text-xs text-prussian-blue"
+                          >
+                            Start time
+                          </label>
+                          <TimePicker
+                            value={startTime}
+                            onChange={setStartTime}
+                          />
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="endTime"
+                            className="px-2 font-poppins text-xs text-prussian-blue"
+                          >
+                            End time
+                          </label>
+                          <TimePicker value={endTime} onChange={setEndTime} />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </RadioGroup>
+                  </RadioGroup>
+                </div>
               </div>
-              <div className=" w-[50%] h-[1px]  bg-neutral-300 m-auto"></div>
-              <div className="flex flex-col gap-2 pt-5 px-10 ">
+              {/* <div className=" w-[50%] h-[1px]  bg-neutral-300 m-auto"></div> */}
+              <div className="flex flex-col gap-2 pt-5 px-15 ">
                 <h2 className="font-poppins font-semibold text-lg text-prussian-blue/90 ">
                   Location
                 </h2>
@@ -356,6 +366,7 @@ export default function DateAndLocationCard({
                     ></Input>
                   </div>
                 </div>
+                <div className=" w-full h-[1px]  bg-neutral-300 mt-2.5  m-auto"></div>
               </div>
             </div>
           ) : (
