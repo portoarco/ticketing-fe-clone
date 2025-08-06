@@ -8,7 +8,11 @@ export default function EventOrganizerInfo({ event }: any) {
           <h2 className="font-display text-2xl font-bold text-prussian-blue">
             {`Hosted by `}
             <span className="text-blue-green">
-              {`${event.organizer.user.first_name} ${event.organizer.user.last_name}`}{" "}
+              {`${
+                event.organizer.organizer_name != "No Organizer"
+                  ? event.organizer.organizer_name
+                  : `${event.organizer.user.first_name} ${event.organizer.user.last_name}`
+              }`}
             </span>
           </h2>
           <p className="text-prussian-blue/70 font-poppins text-sm">

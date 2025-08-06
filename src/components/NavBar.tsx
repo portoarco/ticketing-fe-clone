@@ -260,7 +260,7 @@ export default function Navbar() {
     <nav className=" flex justify-center ">
       <div className="flex justify-between items-center mt-4 gap-10 w-[84%] max-w-7xl bg-white/60  h-16 rounded-full  drop-shadow-md  drop-shadow-black/7 px-5 fixed z-50 backdrop-blur-lg">
         <a
-          href="#"
+          href="/"
           className="font-display font-bold text-2xl tracking-wider flex-shrink-0"
         >
           <span className="text-prussian-blue ">Logoip</span>

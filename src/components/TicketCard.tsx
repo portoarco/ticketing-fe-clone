@@ -60,7 +60,7 @@ export default function TicketCard({ event }: any) {
         }`}
       >
         <CardHeader className="relative">
-          <CardTitle className="font-display text-xl font-bold text-prussian-blue mb-0">
+          <CardTitle className="font-display text-xl font-bold text-prussian-blue mb-0 px-6">
             <Button
               onClick={() => setIsExpanded(!isExpanded)}
               className={`w-full h-fit font-poppins bg-blue-green hover:bg-blue-green/90 rounded-b-none cursor-pointer ${

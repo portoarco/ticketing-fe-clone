@@ -45,7 +45,7 @@ export default function EventFilter({
              placeholder:text-prussian-blue/50  font-poppins placeholder:translate-y-0.5 placeholder:text-[16px] text-[16px]  shadow-md"
           />
         </div>
-        <Popover>
+        {/* <Popover>
           <PopoverTrigger asChild>
             <Button className="bg-white text-prussian-blue hover:bg-white border-2 border-transparent hover:border-neutral-300 cursor-pointer font-poppins rounded-4xl py-7 min-w-28 shadow-md ">
               <CalendarRange />
@@ -61,7 +61,7 @@ export default function EventFilter({
             ></Calendar>
             <PopoverArrow />
           </PopoverContent>
-        </Popover>
+        </Popover> */}
       </div>
       <div>
         <div className=" grid-cols items-center justify-center gap-2 ">

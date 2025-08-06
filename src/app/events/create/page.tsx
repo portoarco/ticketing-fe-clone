@@ -227,7 +227,6 @@ export default function CreateEventPage() {
           />
 
           <AddTicketsCard
-            price={price}
             seats={seats}
             setPrice={setPrice}
             setSeats={setSeats}
