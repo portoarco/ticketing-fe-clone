@@ -56,6 +56,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         organizer_name,
         phone_number,
         referral_code,
+        referral_user,
         isVerified,
       } = res.data.result;
 
@@ -66,6 +67,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         organizer_name,
         phone_number,
         referral_code,
+        referral_user,
         isVerified,
       });
 

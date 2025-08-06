@@ -56,7 +56,11 @@ export default function EventCard({
         {/* reminder - h-40 */}
         <div className=" rounded-t-lg relative overflow-hidden h-40 ">
           <Image
-            src={event.image}
+            src={
+              event.image == null
+                ? "https://res.cloudinary.com/dilrmwt4a/image/upload/v1754385284/vupvf1tewgrmuu4cqvhf.jpg"
+                : event.image
+            }
             alt={""}
             fill
             className="object-cover object-center"

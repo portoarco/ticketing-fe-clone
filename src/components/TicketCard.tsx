@@ -13,6 +13,8 @@ import {
 } from "./ui/card";
 
 import { useRouter } from "next/navigation";
+import { apiCall } from "@/helper/apiCall";
+import { toast } from "react-toastify";
 
 function roundToSpecifiedDigit(num: number, digits: number) {
   const factor = 10 ** (num.toString().length - digits);
@@ -28,17 +30,13 @@ export default function TicketCard({ event }: any) {
   const [quantity, setQuantity] = useState<number[]>([]);
   const [voucherCode, setVoucherCode] = useState<string[]>([]);
   const [voucherCodeInput, setVoucherCodeInput] = useState<string>("");
-  const [totalPrice, setTotalPrice] = useState(0);
   const [isVoucherApplied, setIsVoucherApplied] = useState(false);
+  const [usePoints, setUsePoints] = useState(false);
+  const [userData, setUserData] = useState<any>([]);
 
   useEffect(() => {
-    setTotalPrice(
-      event.ticketType.reduce((prev: any, current: any, index: number) => {
-        return prev + current.price * quantity[index];
-      }, 0)
-    );
-    // setVoucherCode(event.voucher_event.map((voucher: any) => voucher.code));
-
+    // console.log("userData.first_name : ", userData.first_name);
+    console.log("userData : ", userData.referral_user);
     const el = contentRef.current;
     if (!el) return;
 
@@ -56,7 +54,13 @@ export default function TicketCard({ event }: any) {
     return () => {
       observer.disconnect;
     };
-  }, [isExpanded, quantity, voucherCodeInput, isVoucherApplied]);
+  }, [isExpanded, quantity, voucherCodeInput, isVoucherApplied, usePoints]);
+
+  // useEffect(() => {
+  //   console.log(voucherDiscount);
+  //   console.log(discountedPrice);
+  //   console.log(discountedTotalPrice);
+  // }, [quantity, isVoucherApplied]);
 
   function checkVoucher(input: string) {
     if (voucherCode.includes(voucherCodeInput)) {
@@ -66,26 +70,36 @@ export default function TicketCard({ event }: any) {
       );
       return true;
     } else {
+      setIsVoucherApplied(false);
       return false;
     }
   }
 
-  const voucherDiscount = isVoucherApplied
-    ? event.voucher_event.find(
-        (voucher: any) => voucher.code == voucherCodeInput
-      ).percentage
+  const points = userData.first_name
+    ? userData.referral_user.reduce((prev: any, referral: any, index: any) => {
+        return prev + referral.points;
+      }, 0)
     : 0;
-  const discountedPrice = voucherDiscount
-    ? (totalPrice * voucherDiscount) / 100
-    : 0;
-  const discountedTotalPrice = (totalPrice - discountedPrice).toLocaleString(
-    "id-ID",
-    {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }
+
+  const totalPrice = event.ticketType.reduce(
+    (prev: any, current: any, index: number) => {
+      return prev + current.price * quantity[index];
+    },
+    0
   );
+
+  const voucherDiscount =
+    isVoucherApplied && checkVoucher(voucherCodeInput)
+      ? event.voucher_event.find(
+          (voucher: any) => voucher.code == voucherCodeInput
+        ).percentage
+      : 0;
+  const discountedPrice = (totalPrice * voucherDiscount) / 100;
+
+  const discountedTotalPrice =
+    totalPrice - discountedPrice - (usePoints ? points : 0) < 0
+      ? 0
+      : totalPrice - discountedPrice - (usePoints ? points : 0);
   const formattedPrice = totalPrice.toLocaleString("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -96,13 +110,82 @@ export default function TicketCard({ event }: any) {
     router.push("/transaction/payment");
   }
 
+  async function getUserData() {
+    try {
+      const token = localStorage.getItem("token");
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const res = await apiCall.get("/user/profile", config);
+      console.log("res.data : ", res.data.result);
+      setUserData(res.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     setQuantity(event.ticketType.map((item: any) => 0));
+    setVoucherCode(event.voucher_event.map((item: any) => item.code));
+    getUserData();
   }, []);
 
   useEffect(() => {
     // console.log("quantity per ticket : ", quantity);
   }, [quantity]);
+
+  async function createTransaction() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return toast.error("Please log in to proceed.");
+    }
+
+    const ticketsToPurchase = event.ticketType
+      .map((ticket: any, index: number) => ({
+        ticketTypeId: ticket.id,
+        quantity: quantity[index],
+      }))
+      .filter((ticket: any) => ticket.quantity > 0);
+
+    if (ticketsToPurchase.length === 0) {
+      return toast.error("Please select at least one ticket.");
+    }
+
+    let referralCodesToUse: string[] = [];
+    if (usePoints) {
+      referralCodesToUse = userData.referral_user.map((ref: any) => ref.id);
+    }
+
+    const data = {
+      eventId: event.id,
+      tickets: ticketsToPurchase,
+      voucherCode:
+        isVoucherApplied && checkVoucher(voucherCodeInput)
+          ? voucherCodeInput
+          : null,
+      referralCodeIds: referralCodesToUse,
+    };
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const res = await apiCall.post("/transactions", data, config);
+
+      const transactionId = res.data.data.id;
+      toast.success("Transaction created. Proceed to payment.");
+      router.push(`/transaction/payment/${transactionId}`);
+    } catch (error: any) {
+      toast.error("Failed to create transaction.");
+    }
+  }
+
   return (
     <>
       <Card
@@ -158,13 +241,14 @@ export default function TicketCard({ event }: any) {
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 rounded-full text-xl"
-                        onClick={() =>
+                        onClick={() => {
                           setQuantity((prev) => {
                             const copy = [...prev];
                             copy[index] -= 1;
+
                             return copy;
-                          })
-                        }
+                          });
+                        }}
                         disabled={quantity[index] < 1}
                       >
                         -
@@ -180,6 +264,7 @@ export default function TicketCard({ event }: any) {
                           setQuantity((prev) => {
                             const copy = [...prev];
                             copy[index] += 1;
+
                             return copy;
                           })
                         }
@@ -224,14 +309,22 @@ export default function TicketCard({ event }: any) {
                   >
                     Use My Points
                   </label>
-                  <Checkbox id="points" />
+                  <Checkbox
+                    onCheckedChange={() => setUsePoints(!usePoints)}
+                    id="points"
+                  />
                 </div>
                 <p className="text-xs font-bold font-poppins text-selective-orange">
-                  20.000
+                  {points.toLocaleString("id-ID")}
                 </p>
               </div>
               <p className="text-[11px] font-poppins text-prussian-blue/60 mt-1">
-                You will save IDR 20.000
+                You will save{" "}
+                {points.toLocaleString("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  minimumFractionDigits: 0,
+                })}
               </p>
               <div className="absolute bottom-0  border-b mb-3 inset-x-0"></div>
             </CardContent>
@@ -239,7 +332,10 @@ export default function TicketCard({ event }: any) {
               <div className="w-full space-y-2">
                 <div className="flex flex-col gap-2 items-start justify-between font-poppins  text-prussian-blue/70">
                   {event.ticketType.map((ticket: any, index: number) => (
-                    <>
+                    <div
+                      key={index}
+                      className="flex flex-col gap-2 items-start justify-between w-full "
+                    >
                       {quantity[index] == 0 ? null : (
                         <>
                           <div
@@ -260,7 +356,7 @@ export default function TicketCard({ event }: any) {
                           </div>
                         </>
                       )}
-                    </>
+                    </div>
                   ))}
                 </div>
                 {/* <div className="flex items-center justify-between font-poppins text-xs text-prussian-blue/70">
@@ -273,7 +369,7 @@ export default function TicketCard({ event }: any) {
                     })}`}
                   </p>
                 </div> */}
-                {isVoucherApplied ? (
+                {isVoucherApplied && checkVoucher(voucherCodeInput) ? (
                   <>
                     <div className="flex items-center justify-between font-poppins text-xs text-prussian-blue/70">
                       <p>Voucher Discount</p>
@@ -292,11 +388,33 @@ export default function TicketCard({ event }: any) {
                 ) : (
                   <></>
                 )}
+                {usePoints ? (
+                  <>
+                    <div className="flex items-center justify-between font-poppins text-xs text-prussian-blue/70">
+                      <p>Points Discount</p>
+                      <p className="text-green-600">
+                        {`- ${points.toLocaleString("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                          minimumFractionDigits: 0,
+                        })} `}
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
 
               <div className="flex justify-between font-semibold w-full font-poppins text-prussian-blue text-lg mt-2 pt-2 border-t">
                 <span>Total</span>
-                <span>{discountedTotalPrice}</span>
+                <span>
+                  {discountedTotalPrice.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                    minimumFractionDigits: 0,
+                  })}
+                </span>
               </div>
             </CardFooter>
           </div>
@@ -305,7 +423,7 @@ export default function TicketCard({ event }: any) {
           <Button
             size="lg"
             onClick={() => navigateToPayment()}
-            disabled={!isExpanded}
+            disabled={!isExpanded || discountedTotalPrice <= 0}
             className={`w-full font-poppins cursor-pointer rounded-t-none  font-bold origin-top ${
               isExpanded
                 ? "scale-y-100 mt-0 bg-ut-orange  hover:bg-ut-orange/90 "
