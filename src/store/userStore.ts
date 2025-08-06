@@ -9,6 +9,7 @@ interface UserState {
   phone_code: string;
   phone_number: string;
   referral_code: string;
+  referral_user: [];
   isVerified: boolean | undefined;
   avatar: string;
   setUserProfile: (
@@ -25,6 +26,7 @@ export const useUserStore = create<UserState>((set) => ({
   email: "",
   country: "",
   referral_code: "",
+  referral_user: [],
   avatar: "",
   phone_code: "",
   phone_number: "",
@@ -44,6 +46,7 @@ export const useUserStore = create<UserState>((set) => ({
       email: "",
       country: "",
       referral_code: "",
+      referral_user: [],
       phone_code: "",
       phone_number: "",
     });

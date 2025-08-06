@@ -15,7 +15,7 @@ async function getEvent(params: string): Promise<any | null> {
   try {
     const res = await apiCall.get(`/events/${params}`);
 
-    console.log(res.data);
+    console.log("Event Details page : ", res.data.data);
 
     if (res) {
       return res.data.data;
