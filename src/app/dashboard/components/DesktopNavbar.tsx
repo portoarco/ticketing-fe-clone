@@ -20,13 +20,15 @@ function DesktopNavbar() {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = res.data.result;
-        const organizer_data = res.data.result.organizer[0].organizer_name;
+        // const organizer_data = res.data.result.organizer[0].organizer_name;
+        // console.log(data);
+        // console.log(data.organizer);
 
         setUserProfile({
           first_name: data.first_name || "",
           last_name: data.last_name || "",
           avatar: data.avatar || "",
-          organizer_name: organizer_data || "",
+          organizer_name: data.organizer.organizer_name || "",
         });
       } catch (error) {
         console.log(error);

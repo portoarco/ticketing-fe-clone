@@ -40,6 +40,9 @@ interface TransactionDetails {
     phone_number: string;
     avatar: string;
   };
+  ticketType: {
+    price: number;
+  };
 }
 
 interface ViewDetailsProps {
@@ -105,7 +108,7 @@ function ViewDetails({ open, onOpenChange, transaction }: ViewDetailsProps) {
             <DialogTitle>Payment Details</DialogTitle>
           </div>
           <DialogDescription>
-            Transaction ID : {transaction?.id.slice(0, 5).toUpperCase()}
+            Invoice Code : {transaction?.id.slice(0, 5).toUpperCase()}
           </DialogDescription>
         </DialogHeader>
         {/* Profile */}
@@ -133,22 +136,24 @@ function ViewDetails({ open, onOpenChange, transaction }: ViewDetailsProps) {
             <p className="text-md text-gray-500 font-semibold">Event</p>
             <p className="font-semibold">{transaction?.detail_event.name}</p>
           </div>
-          <div id="date-time" className="flex gap-x-10 mt-3">
+          <div className="flex justify-between">
+            {/* <div id="date-time" className="flex gap-x-10 mt-3"> */}
             <div>
               <p className="text-md text-gray-500 font-semibold">Date</p>
               <p>{formatDate(transaction?.detail_event.start_date || null)}</p>
             </div>
             <div>
               <p className="text-md text-gray-500 font-semibold">Time</p>
-              <p>23.59</p>
+              <p>{formatTime(transaction?.detail_event.start_date || null)}</p>
+              {/* </div> */}
             </div>
-          </div>
-          <div id="venue" className="mt-3">
-            <p className="text-md text-gray-500 font-semibold">Venue</p>
-            <p>{transaction?.detail_event.location_Event.city}</p>
-            <p className="text-sm mt-1">
-              {transaction?.detail_event.location_Event.address}
-            </p>
+            <div id="venue" className="">
+              <p className="text-md text-gray-500 font-semibold">Venue</p>
+              <p>{transaction?.detail_event.location_Event.city}</p>
+              <p className="text-sm mt-1">
+                {transaction?.detail_event.location_Event.address}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -182,6 +187,14 @@ function ViewDetails({ open, onOpenChange, transaction }: ViewDetailsProps) {
         {/* Total Amount */}
         <div className=" w-full border-1 border-gray-300"></div>
 
+        <div id="voucher" className="flex justify-between">
+          <p className="text-sm text-gray-500">Voucher Used</p>
+          <p className="text-sm font-semibold">1000</p>
+        </div>
+        <div id="points" className="flex justify-between ">
+          <p className="text-sm text-gray-500">Points</p>
+          <p className="text-sm font-semibold">5000</p>
+        </div>
         <div id="total-amount" className="flex justify-between items-center">
           <p className="font-semibold">Total Amount</p>
           <p
@@ -189,7 +202,10 @@ function ViewDetails({ open, onOpenChange, transaction }: ViewDetailsProps) {
               transaction?.transaction_status || ""
             )}`}
           >
-            IDR {transaction?.amount}
+            Rp.{" "}
+            {transaction && transaction.ticketType
+              ? transaction.ticketType.price * transaction.quantity
+              : 0}
           </p>
         </div>
 

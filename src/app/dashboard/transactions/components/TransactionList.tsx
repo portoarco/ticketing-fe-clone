@@ -58,6 +58,9 @@ interface TransactionDetails {
     phone_number: string;
     avatar: string;
   };
+  ticketType: {
+    price: number;
+  };
 }
 
 function TransactionList() {
@@ -84,17 +87,18 @@ function TransactionList() {
       });
 
       const transactionDetailsData = res.data.data;
+      console.log(transactionDetailsData);
       // sort data
       // const filtered = sortTransactions(transactionDetailsData, sortOrder);
 
-      const filtered = filterTransactionsByStatus(
-        transactionDetailsData,
-        statusFilter
-      );
-      const sorted = sortTransactions(filtered, sortOrder);
+      // const filtered = filterTransactionsByStatus(
+      //   transactionDetailsData,
+      //   statusFilter
+      // );
+      // const sorted = sortTransactions(filtered, sortOrder);
 
       // setTransaction(transactionDetailsData);
-      setTransaction(sorted);
+      setTransaction(transactionDetailsData);
     } catch (error) {
       console.log(error);
     }
@@ -248,7 +252,7 @@ function TransactionList() {
                       {data.detail_event.name}
                     </TableCell>
                     <TableCell className="text-center">
-                      Rp. {data.amount}
+                      Rp. {data.ticketType.price * data.quantity}
                     </TableCell>
                     <TableCell className="text-center">
                       {data.paid_at
