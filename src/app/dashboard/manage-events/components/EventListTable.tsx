@@ -1,5 +1,6 @@
 "use client";
 import { eventData } from "@/app/components/EventListSection";
+import LoadingPage from "@/app/components/LoadingPage";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -46,9 +47,12 @@ function EventListTable() {
   // store data
   const [events, setEvents] = useState<IEventList[]>([]);
 
+  // loading
+  const [localLoading, setLocalLoading] = useState(false);
   // get data from db
   const getEventsbyAttendance = async () => {
     try {
+      setLocalLoading(true);
       const token = localStorage.getItem("token");
       if (!token) return;
       const res = await apiCall.get("/events/attendance", {
@@ -59,12 +63,18 @@ function EventListTable() {
       setEvents(eventData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLocalLoading(false);
     }
   };
 
   useEffect(() => {
     getEventsbyAttendance();
   }, []);
+
+  if (localLoading) {
+    return <LoadingPage></LoadingPage>;
+  }
 
   return (
     <Card className="p-6 w-full overflow-auto mt-3 h-80">

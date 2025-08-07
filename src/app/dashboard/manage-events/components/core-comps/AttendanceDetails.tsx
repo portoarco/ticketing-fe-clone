@@ -24,7 +24,9 @@ interface IAttendanceDetail {
 interface IEventsByOrganizerProps {
   id: string;
   name: string;
-  attendanceDetails: IAttendanceDetail[];
+  confirmed_attendance_user_invoice: string[];
+  confirmed_attendance_user_name: string[];
+  confirmed_attendance_user_quantity: number[];
 }
 
 interface AttendanceDetailsProps {
@@ -38,8 +40,6 @@ function AttendanceDetails({
   onOpenChange,
   selectedEvent,
 }: AttendanceDetailsProps) {
-  useEffect;
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-white w-full max-w-6xl">
@@ -63,14 +63,30 @@ function AttendanceDetails({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {selectedEvent?.attendanceDetails?.length ? (
-                selectedEvent.attendanceDetails.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{item.invoice}</TableCell>
-                    <TableCell>{item.customerName}</TableCell>
-                    <TableCell>{item.quantity}</TableCell>
-                  </TableRow>
-                ))
+              {selectedEvent?.confirmed_attendance_user_name?.length ? (
+                selectedEvent.confirmed_attendance_user_name.map(
+                  (name, index) => (
+                    <TableRow
+                      key={
+                        selectedEvent.confirmed_attendance_user_invoice[index]
+                      }
+                    >
+                      <TableCell>
+                        {selectedEvent.confirmed_attendance_user_invoice[index]
+                          .slice(0, 5)
+                          .toUpperCase()}
+                      </TableCell>
+                      <TableCell>{name}</TableCell>
+                      <TableCell>
+                        {
+                          selectedEvent.confirmed_attendance_user_quantity[
+                            index
+                          ]
+                        }
+                      </TableCell>
+                    </TableRow>
+                  )
+                )
               ) : (
                 <TableRow>
                   <TableCell colSpan={3} className="text-center">

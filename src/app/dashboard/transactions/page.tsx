@@ -22,12 +22,10 @@ interface TransactionDetails {
 function ManageTransactions() {
   // store data useState
   const [transaction, setTransaction] = useState<TransactionDetails[]>([]);
-  // const { isLoading, setLoading } = useLoadingStore();
 
   // access data from db
   const getData = async () => {
     try {
-      // setLoading(true);
       const token = localStorage.getItem("token");
       const res = await apiCall.get("/transaction/detail", {
         headers: { Authorization: `Bearer ${token}` },
@@ -37,8 +35,6 @@ function ManageTransactions() {
       setTransaction(transactionDetailsData);
     } catch (error) {
       console.log(error);
-    } finally {
-      // setLoading(false);
     }
   };
 
@@ -79,10 +75,6 @@ function ManageTransactions() {
     // getData();
     return () => clearInterval(interval); // cleanup
   }, []);
-
-  // if (isLoading) {
-  //   return <LoadingPage></LoadingPage>;
-  // }
 
   return (
     <section>

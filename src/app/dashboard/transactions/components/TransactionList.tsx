@@ -30,6 +30,7 @@ import ViewDetails from "./ViewDetails";
 import { apiCall } from "@/helper/apiCall";
 import { useLoadingStore } from "@/store/loadingStore";
 import { toast } from "react-toastify";
+import LoadingPage from "@/app/components/LoadingPage";
 
 interface TransactionDetails {
   id: string;
@@ -180,6 +181,7 @@ function TransactionList() {
   }, []);
 
   // sorting useEffect
+
   return (
     <section>
       <Card className="p-6 w-full">
