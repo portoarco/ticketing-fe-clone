@@ -38,6 +38,10 @@ export interface TicketsCardProps {
   setPromotions: (value: Promotion[]) => void;
   addPromotion: boolean;
   setAddPromotion: (value: boolean) => void;
+  seats: number;
+  setSeats: (value: number) => void;
+  price: number;
+  setPrice: (value: number) => void;
 }
 
 export type Promotion = {

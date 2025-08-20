@@ -31,10 +31,13 @@ import { Promotion, TicketType } from "@/app/types/types";
 export default function CreateEventForm() {
   const router = useRouter();
 
+  const [price, setPrice] = useState(0);
+  const [seats, setSeats] = useState(0);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const [ticketType, setTickeType] = useState<TicketType[]>([
+  const [ticketType, setTicketType] = useState<TicketType[]>([
     { id: 1, name: "", price: 0, quantity: 0 },
   ]);
 
@@ -329,14 +332,18 @@ export default function CreateEventForm() {
           />
 
           <AddTicketsCard
-            ticketType={ticketType}
-            setTicketType={setTickeType}
             isFree={isFree}
             setIsFree={setIsFree}
+            ticketType={ticketType}
+            setTicketType={setTicketType}
             promotions={promotions}
             setPromotions={setPromotions}
             addPromotion={addPromotion}
             setAddPromotion={setAddPromotion}
+            seats={seats}
+            setSeats={setSeats}
+            price={price}
+            setPrice={setPrice}
           />
           <div className="flex justify-end mt-6">
             <Button

@@ -41,7 +41,7 @@ interface CartItem {
   price: number;
 }
 
-interface CartData {
+export interface CartData {
   id: number;
   total: number;
   items: CartItem[];
@@ -63,12 +63,12 @@ async function getCartData(id: string): Promise<CartData | null> {
   }
 }
 
-export default async function CartPage({ params }: PageParams) {
+export default async function CartPage({ params }: { params: { id: string } }) {
   const transactionData = await getCartData(params.id);
 
   return (
     <div className="flex items-center justify-center h-[100vh]">
-      <CartCard data={transactionData} />
+      <CartCard event={transactionData} />
     </div>
   );
 }

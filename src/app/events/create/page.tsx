@@ -34,6 +34,7 @@ import { DateRange, isDateRange } from "react-day-picker";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useAuthStore } from "@/store/authStore";
+import { Promotion, TicketType } from "@/app/types/types";
 
 export default function CreateEventPage() {
   const router = useRouter();
@@ -44,10 +45,14 @@ export default function CreateEventPage() {
   const [seats, setSeats] = useState(0);
   const [eventType, setEventType] = useState("single");
   const [date, setDate] = useState<Date | DateRange | undefined>(undefined);
-  const [startTime, setStarTime] = useState("10:00");
+  const [startTime, setStartTime] = useState("10:00");
   const [endTime, setEndTime] = useState("12:00");
   const [selectedCity, setSelectedCity] = useState("");
   const [address, setAddress] = useState("");
+  const [isFree, setIsFree] = useState(false);
+  const [ticketType, setTicketType] = useState<TicketType[]>([]);
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+  const [addPromotion, setAddPromotion] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -212,7 +217,7 @@ export default function CreateEventPage() {
             date={date}
             setDate={setDate}
             startTime={startTime}
-            setStartTime={setStarTime}
+            setStartTime={setStartTime}
             endTime={endTime}
             setEndTime={setEndTime}
             selectedCity={selectedCity}
@@ -227,9 +232,18 @@ export default function CreateEventPage() {
           />
 
           <AddTicketsCard
+            isFree={isFree}
+            setIsFree={setIsFree}
+            ticketType={ticketType}
+            setTicketType={setTicketType}
+            promotions={promotions}
+            setPromotions={setPromotions}
+            addPromotion={addPromotion}
+            setAddPromotion={setAddPromotion}
             seats={seats}
-            setPrice={setPrice}
             setSeats={setSeats}
+            price={price}
+            setPrice={setPrice}
           />
           <div className="flex justify-end mt-6">
             <Button

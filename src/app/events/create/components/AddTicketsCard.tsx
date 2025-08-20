@@ -30,6 +30,8 @@ export default function AddTicketsCard({
   setIsFree,
   promotions,
   setPromotions,
+  addPromotion,
+  setAddPromotion,
 }: TicketsCardProps) {
   const [isEditing, setIsEditing] = useState(false);
 

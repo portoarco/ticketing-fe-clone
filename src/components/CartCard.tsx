@@ -1,26 +1,22 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import { TbShoppingCartPlus } from "react-icons/tb";
+import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
+import type { CartData } from "@/app/transaction/cart/[id]/page";
 
-function roundToSpecifiedDigit(num: number, digits: number) {
-  const factor = 10 ** (num.toString().length - digits);
-  return Math.round(num / factor) * factor;
+interface CartCardProps {
+  event: CartData | null;
 }
 
-export default function CartCard({ event }: any) {
+// function roundToSpecifiedDigit(num: number, digits: number) {
+//   const factor = 10 ** (num.toString().length - digits);
+//   return Math.round(num / factor) * factor;
+// }
+
+export default function CartCard({ event }: CartCardProps) {
   const [quantity, setQuantity] = useState(1);
-  const price = event ? event.price : 100000;
+  const item = event?.items?.[0];
+  const price = item ? item.price : 100000;
   const totalPrice = price * quantity;
   const voucherDiscount = 25;
   const discountedPrice = (totalPrice * voucherDiscount) / 100;
@@ -32,11 +28,11 @@ export default function CartCard({ event }: any) {
       minimumFractionDigits: 0,
     }
   );
-  const formattedPrice = totalPrice.toLocaleString("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  });
+  // const formattedPrice = totalPrice.toLocaleString("id-ID", {
+  //   style: "currency",
+  //   currency: "IDR",
+  //   minimumFractionDigits: 0,
+  // });
   return (
     <>
       <Card className=" w-full border-0 border-transparent  ">
